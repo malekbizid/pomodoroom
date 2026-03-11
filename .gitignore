@@ -1,0 +1,9 @@
+# Dépendances Node.js (TRÈS IMPORTANT)
+node_modules/
+
+# Fichiers de log
+npm-debug.log*
+
+# Base de données locale
+# data/app.json
+# data/db.sqlite
