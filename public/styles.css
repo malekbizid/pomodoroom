@@ -60,3 +60,9 @@ button {
 button:hover {
     background: #ff5273;
 }
+
+.audio-player {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+}
