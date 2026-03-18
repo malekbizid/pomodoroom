@@ -17,7 +17,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    padding-bottom: 120px;
+    padding-bottom: 120px; 
     position: relative;
 }
 
@@ -26,15 +26,14 @@ main.chill-background {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 2rem; 
 }
 
 .room-title {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    letter-spacing: 2px;
+    font-size: 3rem; 
+    margin-bottom: 1rem; 
+    text-shadow: 0 3px 11px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px; 
 }
 
 .timer-card {
@@ -42,35 +41,35 @@ main.chill-background {
     border: 1px solid rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    padding: 4rem 6rem;
-    border-radius: 30px;
+    padding: 3rem 4.5rem; 
+    border-radius: 30px; 
     text-align: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3),
                 inset 0 1px 1px rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
 }
 
 .timer-card:hover {
     background: rgba(30, 30, 50, 0.45);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4),
+    box-shadow: 0 9px 30px rgba(0, 0, 0, 0.4),
                 inset 0 1px 1px rgba(255, 255, 255, 0.15);
 }
 
 #mode-label {
-    font-size: 1rem;
+    font-size: 0.75rem; 
     color: rgba(255, 255, 255, 0.9);
     text-transform: uppercase;
-    letter-spacing: 4px;
-    margin-bottom: 1.5rem;
+    letter-spacing: 3px; 
+    margin-bottom: 1.125rem; 
     font-weight: 600;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1.5px 6px rgba(0, 0, 0, 0.3);
 }
 
 #time-display {
-    font-size: 7.5rem;
+    font-size: 5.625rem; 
     font-weight: 800;
-    letter-spacing: 8px;
-    margin-bottom: 2rem;
+    letter-spacing: 6px; 
+    margin-bottom: 1.5rem; 
     color: white;
     background-clip: text;
 }
@@ -78,7 +77,8 @@ main.chill-background {
 .controls {
     display: flex;
     justify-content: center;
-    gap: 1.5rem;
+    /* 1.5rem * 0.75 */
+    gap: 1.125rem; 
 }
 
 button {
@@ -87,15 +87,15 @@ button {
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     color: #ffffff;
-    padding: 14px 32px;
-    border-radius: 12px;
-    font-size: 1.1rem;
+    padding: 10.5px 24px; 
+    border-radius: 12px; 
+    font-size: 1.1rem; 
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2),
+    letter-spacing: 1.5px; 
+    box-shadow: 0 3px 11px rgba(0, 0, 0, 0.2),
                 inset 0 1px 1px rgba(255, 255, 255, 0.2);
     position: relative;
     overflow: hidden;
@@ -104,25 +104,25 @@ button {
 button:hover {
     background: rgba(255, 255, 255, 0.25);
     border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15),
+    box-shadow: 0 6px 19px rgba(255, 255, 255, 0.15),
                 inset 0 1px 1px rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
+    transform: translateY(-1.5px);
 }
 
 button:active {
     transform: translateY(0);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2),
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.2),
                 inset 0 1px 1px rgba(255, 255, 255, 0.15);
 }
 
 .audio-player {
-    margin-top: 1rem;
+    margin-top: 0.75rem; 
     width: 100%;
-    max-width: 400px;
+    max-width: 400px; 
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    padding: 0.5rem;
+    border-radius: 12px; 
+    padding: 0.75rem; 
     filter: brightness(1.1);
 }
 
@@ -131,7 +131,7 @@ button:active {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 120px;
+    height: 120px; 
     background: transparent;
     display: flex;
     justify-content: center;
@@ -141,10 +141,10 @@ button:active {
 
 .gallery {
     display: flex;
-    gap: 12px;
+    gap: 12px; 
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 12px 20px;
+    padding: 9px 15px; 
     scroll-behavior: smooth;
     width: 100%;
     justify-content: center;
@@ -153,7 +153,7 @@ button:active {
 }
 
 .gallery::-webkit-scrollbar {
-    height: 6px;
+    height: 4.5px; 
 }
 
 .gallery::-webkit-scrollbar-track {
@@ -171,14 +171,14 @@ button:active {
 
 .gallery-item {
     flex-shrink: 0;
-    width: 90px;
-    height: 90px;
-    border-radius: 12px;
+    width: 67.5px; 
+    height: 67.5px; 
+    border-radius: 9px; 
     overflow: hidden;
     cursor: pointer;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 11px rgba(0, 0, 0, 0.3);
     position: relative;
 }
 
@@ -190,14 +190,14 @@ button:active {
 }
 
 .gallery-item:hover {
-    transform: scale(1.1) translateY(-5px);
+    transform: scale(1.1) translateY(-4px);
     border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 19px rgba(255, 255, 255, 0.2);
 }
 
 .gallery-item.active {
     border-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4),
-                inset 0 0 10px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4),
+                inset 0 0 7.5px rgba(255, 255, 255, 0.2);
     transform: scale(1.15);
 }
