@@ -201,3 +201,109 @@ button:active {
                 inset 0 0 7.5px rgba(255, 255, 255, 0.2);
     transform: scale(1.15);
 }
+/* --- STYLE DU CHAT (Ajout à la fin du fichier) --- */
+
+.chat-container {
+    /* Positionnement fixe en bas à gauche */
+    position: fixed;
+    /* Ajusté pour être juste au-dessus de la galerie (qui fait 90px de haut) */
+    bottom: 20px; 
+    left: 20px;
+    
+    /* Dimensions (recalculées pour le zoom 75%) */
+    width: 300px;
+    height: 320px;
+    
+    /* Design Glassmorphism assorti à la timer-card */
+    background: rgba(30, 30, 50, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    
+    /* Layout interne */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Pour que les enfants ne dépassent pas des bords arrondis */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    z-index: 1000; /* S'assure qu'il passe au-dessus du fond */
+    transition: all 0.3s ease;
+}
+
+.chat-header {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 1px;
+}
+
+#chat-messages {
+    flex-grow: 1; /* Prend tout l'espace disponible */
+    padding: 15px;
+    overflow-y: auto; /* Active le scroll vertical */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espace entre les messages */
+}
+
+/* Personnalisation de la barre de défilement du chat */
+#chat-messages::-webkit-scrollbar {
+    width: 5px;
+}
+#chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+/* Style des bulles de message */
+.message {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 12px;
+    border-radius: 12px;
+    border-top-left-radius: 2px; /* Petit effet bulle */
+    max-width: 90%;
+    width: fit-content;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    word-wrap: break-word; /* Casse les mots longs pour éviter de dépasser */
+}
+
+/* Formulaire en bas du chat */
+#chat-form {
+    display: flex;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 8px;
+}
+
+#chat-input {
+    flex-grow: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 8px;
+    color: white;
+    font-size: 0.85rem;
+    outline: none;
+}
+
+#chat-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Réutilisation du style de tes boutons existants, mais en plus petit */
+#chat-form button {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+}
+#chat-form button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}

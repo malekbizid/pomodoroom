@@ -87,3 +87,28 @@ galleryItems.forEach(item => {
         item.classList.add('active');
     });
 });
+// --- LOGIQUE DU CHAT AVEC SOCKET.IO ---
+const socket = io(); // Se connecte automatiquement au serveur
+const chatForm = document.getElementById('chat-form');
+const chatInput = document.getElementById('chat-input');
+const chatMessages = document.getElementById('chat-messages');
+
+// Quand on soumet le formulaire (clic sur "Envoyer" ou touche Entrée)
+chatForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // Empêche la page de se recharger
+    if (chatInput.value.trim() !== "") {
+        // Envoie le message au serveur
+        socket.emit('chat message', chatInput.value);
+        chatInput.value = ''; // Vide l'input
+    }
+});
+
+// Quand on reçoit un message du serveur
+socket.on('chat message', (msg) => {
+    const messageElement = document.createElement('div');
+    messageElement.textContent = msg;
+    chatMessages.appendChild(messageElement);
+    
+    // Scrolle automatiquement vers le bas pour voir le dernier message
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+});

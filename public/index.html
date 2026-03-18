@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,6 +38,17 @@
         </div>
     </div>
 
+    <div class="chat-container">
+        <div class="chat-header">Lofi Chat</div>
+        <div id="chat-messages">
+            </div>
+        <form id="chat-form">
+            <input type="text" id="chat-input" autocomplete="off" placeholder="Écris un message..." />
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
