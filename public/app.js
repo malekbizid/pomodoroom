@@ -71,3 +71,19 @@ pauseBtn.addEventListener('click', pauseTimer);
 resetBtn.addEventListener('click', resetTimer);
 
 updateDisplay();
+
+const galleryItems = document.querySelectorAll('.gallery-item');
+const body = document.body;
+
+galleryItems[0].classList.add('active');
+
+galleryItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const imageUrl = item.getAttribute('data-image');
+        
+        body.style.backgroundImage = `url('${imageUrl}')`;
+        
+        galleryItems.forEach(gItem => gItem.classList.remove('active'));
+        item.classList.add('active');
+    });
+});
