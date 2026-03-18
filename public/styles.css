@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    background-image: url('./images/lofi-sunset.jpg'); 
+    background-size: cover;     
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.timer-card {
+    background: rgba(15, 15, 25, 0.555); 
+    
+    backdrop-filter: blur(12px);
+    
+    padding: 3rem 5rem;
+    border-radius: 20px;
+    text-align: center;
+
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); 
+}
+
+#mode-label {
+    font-size: 1.2rem;
+    color: #a0a0b5;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+}
+
+#time-display {
+    font-size: 7rem;
+    font-weight: bold;
+    letter-spacing: 5px;
+    margin-bottom: 1.5rem;
+}
+
+button {
+    background: #e94560;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    margin: 0 8px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background: #ff5273;
+}
