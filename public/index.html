@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+<button id="logout-btn" class="logout-btn">Se déconnecter</button>    
     <main class="chill-background">  
         <div class="room-title">Pomodoro Chill Room</div>
         <div class="timer-card">
@@ -51,6 +51,23 @@
             <input type="text" id="chat-input" autocomplete="off" placeholder="Écris un message..." />
             <button type="submit">Envoyer</button>
         </form>
+    </div>
+
+    <div id="auth-modal" class="modal-overlay">
+        <div class="auth-card">
+            <h2>Authentification</h2>
+            <p id="auth-message"></p>
+            
+            <form id="auth-form">
+                <input type="text" id="username" placeholder="Nom d'utilisateur" autocomplete="off" required>
+                <input type="password" id="password" placeholder="Mot de passe" required>
+                
+                <div class="auth-controls">
+                    <button type="submit" id="login-btn">Se connecter</button>
+                    <button type="button" id="register-btn">S'inscrire</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>

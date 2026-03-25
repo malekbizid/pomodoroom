@@ -2,12 +2,29 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
+const mysql = require('mysql2');
+const session = require('express-session');
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
 const PORT = 3000;
+
+// --- CONFIGURATION ---
+app.use(express.json()); // Pour lire le JSON envoyé par le front
+app.use(express.urlencoded({ extended: true }));
+
+// Configuration de la session
+const sessionMiddleware = session({
+    secret: 'secret-lofi-key-super-secure', // À changer en production
+    resave: false,
+    saveUninitialized: false
+});
+app.use(sessionMiddleware);
+
+// Partager la session Express avec Socket.IO
+io.engine.use(sessionMiddleware);
 
 app.use(express.static(path.join(__dirname, '../public')));
 
