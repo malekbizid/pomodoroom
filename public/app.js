@@ -16,6 +16,7 @@ const passwordInput = document.getElementById('password');
 const authMessage = document.getElementById('auth-message');
 const registerBtn = document.getElementById('register-btn');
 const logoutBtn = document.getElementById('logout-btn');
+
 let currentUser = "Anonyme";
 // On ne connecte pas le chat tout de suite
 const socket = io({ autoConnect: false }); 
@@ -93,6 +94,18 @@ registerBtn.addEventListener('click', async () => {
     }
 });
 
+// Se déconnecter
+logoutBtn.addEventListener('click', async () => {
+    try {
+        const response = await fetch('/api/logout', { method: 'POST' });
+        if (response.ok) {
+            window.location.reload(); 
+        }
+    } catch (err) {
+        console.error("Erreur de déconnexion", err);
+    }
+});
+
 // --- LOGIQUE DU CHAT ---
 const chatForm = document.getElementById('chat-form');
 const chatInput = document.getElementById('chat-input');
@@ -140,19 +153,7 @@ socket.on('chat history', (messages) => {
 socket.on('chat message', (data) => {
     appendMessage(data.user, data.text);
 });
-// Se déconnecter
-logoutBtn.addEventListener('click', async () => {
-    try {
-        const response = await fetch('/api/logout', { method: 'POST' });
-        if (response.ok) {
-            // L'astuce magique : on recharge la page ! 
-            // Ça va vider le chat, remettre le timer à zéro et réafficher le pop-up de connexion
-            window.location.reload(); 
-        }
-    } catch (err) {
-        console.error("Erreur de déconnexion", err);
-    }
-});
+
 
 // --- LOGIQUE DU MINUTEUR ---
 function updateDisplay() {
@@ -237,46 +238,23 @@ galleryItems.forEach(item => {
     }
 });
 
-// file upload for background
-uploadImage.addEventListener('click', () => {
-    backgroundFileInput.click();
-});
+// File upload for background
+if(uploadImage && backgroundFileInput) {
+    uploadImage.addEventListener('click', () => {
+        backgroundFileInput.click();
+    });
 
-backgroundFileInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            body.style.backgroundImage = `url('${event.target.result}')`;
-            
-            galleryItems.forEach(gItem => gItem.classList.remove('active'));
-            uploadImage.classList.add('active');
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-
-// chat (socket.io)
-const socket = io();
-const chatForm = document.getElementById('chat-form');
-const chatInput = document.getElementById('chat-input');
-const chatMessages = document.getElementById('chat-messages');
-
-// Envoyer ou Entrée
-chatForm.addEventListener('submit', (e) => {
-    e.preventDefault(); // Empêche la page de se recharger
-    if (chatInput.value.trim() !== "") {
-        // Envoie au serveur
-        socket.emit('chat message', chatInput.value);
-        chatInput.value = ''; 
-    }
-});
-
-// reçoit un message du serveur
-socket.on('chat message', (msg) => {
-    const messageElement = document.createElement('div');
-    messageElement.textContent = msg;
-    chatMessages.appendChild(messageElement);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-});
+    backgroundFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                body.style.backgroundImage = `url('${event.target.result}')`;
+                
+                galleryItems.forEach(gItem => gItem.classList.remove('active'));
+                uploadImage.classList.add('active');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
