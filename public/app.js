@@ -74,41 +74,64 @@ updateDisplay();
 
 const galleryItems = document.querySelectorAll('.gallery-item');
 const body = document.body;
+const uploadImage = document.getElementById('upload-image');
+const backgroundFileInput = document.getElementById('backgroundFileInput');
 
 galleryItems[0].classList.add('active');
 
 galleryItems.forEach(item => {
-    item.addEventListener('click', () => {
-        const imageUrl = item.getAttribute('data-image');
-        
-        body.style.backgroundImage = `url('${imageUrl}')`;
-        
-        galleryItems.forEach(gItem => gItem.classList.remove('active'));
-        item.classList.add('active');
-    });
+    if (item !== uploadImage) {
+        item.addEventListener('click', () => {
+            const imageUrl = item.getAttribute('data-image');
+            
+            body.style.backgroundImage = `url('${imageUrl}')`;
+            
+            galleryItems.forEach(gItem => gItem.classList.remove('active'));
+            item.classList.add('active');
+        });
+    }
 });
-// --- LOGIQUE DU CHAT AVEC SOCKET.IO ---
-const socket = io(); // Se connecte automatiquement au serveur
+
+// file upload for background
+uploadImage.addEventListener('click', () => {
+    backgroundFileInput.click();
+});
+
+backgroundFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            body.style.backgroundImage = `url('${event.target.result}')`;
+            
+            galleryItems.forEach(gItem => gItem.classList.remove('active'));
+            uploadImage.classList.add('active');
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+
+// chat (socket.io)
+const socket = io();
 const chatForm = document.getElementById('chat-form');
 const chatInput = document.getElementById('chat-input');
 const chatMessages = document.getElementById('chat-messages');
 
-// Quand on soumet le formulaire (clic sur "Envoyer" ou touche Entrée)
+// Envoyer ou Entrée
 chatForm.addEventListener('submit', (e) => {
     e.preventDefault(); // Empêche la page de se recharger
     if (chatInput.value.trim() !== "") {
-        // Envoie le message au serveur
+        // Envoie au serveur
         socket.emit('chat message', chatInput.value);
-        chatInput.value = ''; // Vide l'input
+        chatInput.value = ''; 
     }
 });
 
-// Quand on reçoit un message du serveur
+// reçoit un message du serveur
 socket.on('chat message', (msg) => {
     const messageElement = document.createElement('div');
     messageElement.textContent = msg;
     chatMessages.appendChild(messageElement);
-    
-    // Scrolle automatiquement vers le bas pour voir le dernier message
     chatMessages.scrollTop = chatMessages.scrollHeight;
 });

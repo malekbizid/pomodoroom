@@ -189,6 +189,22 @@ button:active {
     display: block;
 }
 
+#upload-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.268);
+    border: 1.5px dashed rgba(255, 255, 255, 0.73);
+    border-width: 3px;
+}
+
+#upload-image img {
+    width: 50%;
+    height: 50%;
+    object-fit: contain;
+    filter: invert(1) brightness(1.5);
+}
+
 .gallery-item:hover {
     transform: scale(1.1) translateY(-4px);
     border-color: rgba(255, 255, 255, 0.5);
