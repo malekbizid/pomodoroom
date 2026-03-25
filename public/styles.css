@@ -201,33 +201,86 @@ button:active {
                 inset 0 0 7.5px rgba(255, 255, 255, 0.2);
     transform: scale(1.15);
 }
-/* --- STYLE DU CHAT (Ajout à la fin du fichier) --- */
 
-.chat-container {
-    /* Positionnement fixe en bas à gauche */
+
+/* --- MODAL D'AUTHENTIFICATION (Pop-up) --- */
+.modal-overlay {
     position: fixed;
-    /* Ajusté pour être juste au-dessus de la galerie (qui fait 90px de haut) */
-    bottom: 20px; 
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.7); /* Fond noir semi-transparent */
+    backdrop-filter: blur(8px); /* Floute la room derrière le pop-up */
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* Toujours au premier plan */
+    transition: opacity 0.4s ease, visibility 0.4s;
+}
+
+/* Classe pour masquer le pop-up */
+.modal-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.auth-card {
+    background: rgba(30, 30, 50, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 2.5rem 3rem; 
+    border-radius: 30px; 
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-card h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+
+.auth-card input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 14px 18px; 
+    margin-bottom: 1.2rem;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+}
+
+.auth-card input::placeholder { color: rgba(255, 255, 255, 0.75); }
+
+.auth-controls {
+    display: flex;
+    flex-direction: column; /* Boutons superposés */
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.auth-controls button { width: 100%; padding: 14px; }
+
+#login-btn { background: rgba(255, 255, 255, 0.25); }
+#register-btn { background: transparent; border: 1px solid rgba(255, 255, 255, 0.3); }
+
+#auth-message { min-height: 20px; font-weight: bold; margin-bottom: 1rem; }
+/* --- STYLE DU CHAT --- */
+.chat-container {
+    position: fixed;
+    bottom: 30px; /* Ajusté pour être juste au-dessus de la galerie d'images */
     left: 20px;
-    
-    /* Dimensions (recalculées pour le zoom 75%) */
     width: 300px;
     height: 320px;
-    
-    /* Design Glassmorphism assorti à la timer-card */
     background: rgba(30, 30, 50, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border-radius: 20px;
-    
-    /* Layout interne */
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Pour que les enfants ne dépassent pas des bords arrondis */
+    overflow: hidden;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    z-index: 1000; /* S'assure qu'il passe au-dessus du fond */
-    transition: all 0.3s ease;
+    z-index: 1000;
 }
 
 .chat-header {
@@ -242,37 +295,29 @@ button:active {
 }
 
 #chat-messages {
-    flex-grow: 1; /* Prend tout l'espace disponible */
+    flex-grow: 1;
     padding: 15px;
-    overflow-y: auto; /* Active le scroll vertical */
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Espace entre les messages */
+    gap: 10px;
 }
 
-/* Personnalisation de la barre de défilement du chat */
-#chat-messages::-webkit-scrollbar {
-    width: 5px;
-}
-#chat-messages::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
-}
+#chat-messages::-webkit-scrollbar { width: 5px; }
+#chat-messages::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 5px; }
 
-/* Style des bulles de message */
 .message {
     background: rgba(255, 255, 255, 0.1);
     padding: 8px 12px;
     border-radius: 12px;
-    border-top-left-radius: 2px; /* Petit effet bulle */
+    border-top-left-radius: 2px;
     max-width: 90%;
     width: fit-content;
     font-size: 0.85rem;
     line-height: 1.4;
-    word-wrap: break-word; /* Casse les mots longs pour éviter de dépasser */
+    word-wrap: break-word;
 }
 
-/* Formulaire en bas du chat */
 #chat-form {
     display: flex;
     padding: 10px;
@@ -292,18 +337,35 @@ button:active {
     outline: none;
 }
 
-#chat-input::placeholder {
-    color: rgba(255, 255, 255, 0.4);
-}
+#chat-input::placeholder { color: rgba(255, 255, 255, 0.4); }
 
-/* Réutilisation du style de tes boutons existants, mais en plus petit */
 #chat-form button {
     padding: 8px 12px;
     font-size: 0.8rem;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.1);
 }
+
 #chat-form button:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-1px);
 }
+
+
+/* --- BOUTON DE DÉCONNEXION --- */
+.logout-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    z-index: 1000;
+    background: rgba(255, 107, 107, 0.2); /* Légèrement rouge */
+    border-color: rgba(255, 107, 107, 0.4);
+}
+
+.logout-btn:hover {
+    background: rgba(255, 107, 107, 0.4);
+    border-color: rgba(255, 107, 107, 0.6);
+}
+
