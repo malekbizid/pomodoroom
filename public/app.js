@@ -8,6 +8,42 @@ const startBtn = document.getElementById('start-btn');
 const pauseBtn = document.getElementById('pause-btn');
 const resetBtn = document.getElementById('reset-btn');
 
+const btn = document.getElementById('fullscreen-btn');
+const expandIcon = document.getElementById('expand-icon');
+const shrinkIcon = document.getElementById('shrink-icon');
+
+function toggleFullScreen() {
+    console.log('Toggling fullscreen mode');
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen()
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+function updateIconState() {
+    if (document.fullscreenElement) {
+        expandIcon.style.display = 'none';
+        shrinkIcon.style.display = 'block';
+    } else {
+        expandIcon.style.display = 'block';
+        shrinkIcon.style.display = 'none';
+    }
+}
+
+
+btn.addEventListener('click', toggleFullScreen);
+document.addEventListener('fullscreenchange', updateIconState);
+
+document.addEventListener('keydown', (e) => {
+    console.log(`Key pressed: ${e.key}`);
+    if (e.key === 'F11') {
+        console.log('F11 pressed, toggling fullscreen');
+        e.preventDefault();
+        toggleFullScreen();
+    }
+});
+
 function updateDisplay() {
     let minutes = Math.floor(timeLeft / 60);
     let seconds = timeLeft % 60;
