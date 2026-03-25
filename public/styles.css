@@ -228,7 +228,77 @@ button:active {
     
     width: 300px;
     height: 320px;
+}
 
+
+/* --- MODAL D'AUTHENTIFICATION (Pop-up) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.7); /* Fond noir semi-transparent */
+    backdrop-filter: blur(8px); /* Floute la room derrière le pop-up */
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* Toujours au premier plan */
+    transition: opacity 0.4s ease, visibility 0.4s;
+}
+
+/* Classe pour masquer le pop-up */
+.modal-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.auth-card {
+    background: rgba(30, 30, 50, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 2.5rem 3rem; 
+    border-radius: 30px; 
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-card h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+
+.auth-card input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 14px 18px; 
+    margin-bottom: 1.2rem;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+}
+
+.auth-card input::placeholder { color: rgba(255, 255, 255, 0.75); }
+
+.auth-controls {
+    display: flex;
+    flex-direction: column; /* Boutons superposés */
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.auth-controls button { width: 100%; padding: 14px; }
+
+#login-btn { background: rgba(255, 255, 255, 0.25); }
+#register-btn { background: transparent; border: 1px solid rgba(255, 255, 255, 0.3); }
+
+#auth-message { min-height: 20px; font-weight: bold; margin-bottom: 1rem; }
+/* --- STYLE DU CHAT --- */
+.chat-container {
+    position: fixed;
+    bottom: 30px; /* Ajusté pour être juste au-dessus de la galerie d'images */
+    left: 20px;
+    width: 300px;
+    height: 320px;
     background: rgba(30, 30, 50, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(15px);
@@ -241,6 +311,11 @@ button:active {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     z-index: 1000; 
     transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
 }
 
 .chat-header {
@@ -292,7 +367,7 @@ button:active {
 }
 
 #chat-messages {
-    flex-grow: 1; 
+    flex-grow: 1;
     padding: 15px;
     overflow-y: auto;
     display: flex;
@@ -307,6 +382,8 @@ button:active {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 5px;
 }
+#chat-messages::-webkit-scrollbar { width: 5px; }
+#chat-messages::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 5px; }
 
 .message {
     background: rgba(255, 255, 255, 0.1);
@@ -340,9 +417,7 @@ button:active {
     outline: none;
 }
 
-#chat-input::placeholder {
-    color: rgba(255, 255, 255, 0.4);
-}
+#chat-input::placeholder { color: rgba(255, 255, 255, 0.4); }
 
 #chat-form button {
     padding: 8px 12px;
@@ -350,7 +425,26 @@ button:active {
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.1);
 }
+
 #chat-form button:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-1px);
+}
+
+
+/* --- BOUTON DE DÉCONNEXION --- */
+.logout-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    z-index: 1000;
+    background: rgba(255, 107, 107, 0.2); /* Légèrement rouge */
+    border-color: rgba(255, 107, 107, 0.4);
+}
+
+.logout-btn:hover {
+    background: rgba(255, 107, 107, 0.4);
+    border-color: rgba(255, 107, 107, 0.6);
 }
