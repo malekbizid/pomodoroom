@@ -1,9 +1,19 @@
+.pixel-text {
+  font-family: "Pixelify Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400; 
+  font-style: normal;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+
+
 
 body {
     height: 100vh;
@@ -35,43 +45,75 @@ main.chill-background {
     text-shadow: 0 3px 11px rgba(0, 0, 0, 0.3);
     letter-spacing: 2px; 
 }
-
 .timer-card {
-    background: rgba(30, 30, 50, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 3rem 4.5rem; 
-    border-radius: 30px; 
-    text-align: center;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3),
-                inset 0 1px 1px rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-}
-
-.timer-card:hover {
-    background: rgba(30, 30, 50, 0.45);
-    box-shadow: 0 9px 30px rgba(0, 0, 0, 0.4),
-                inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    text-align: right;
+    padding: 4px 10px;
+    background: transparent;
 }
 
 #mode-label {
-    font-size: 0.75rem; 
-    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.55);
     text-transform: uppercase;
-    letter-spacing: 3px; 
-    margin-bottom: 1.125rem; 
-    font-weight: 600;
-    text-shadow: 0 1.5px 6px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+    margin-bottom: 2px;
+    font-weight: 400;
 }
 
-#time-display {
-    font-size: 5.625rem; 
-    font-weight: 800;
-    letter-spacing: 6px; 
-    margin-bottom: 1.5rem; 
+.timer-display-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0px;
+    margin-bottom: 6px;
+}
+
+#work-time {
+    font-size: 1.4rem;
+    font-weight: 700;
     color: white;
-    background-clip: text;
+    letter-spacing: 2px;
+    line-height: 1.2;
+}
+
+#pause-time {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 1px;
+    line-height: 1.2;
+}
+
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.controls button {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.75);
+    padding: 0;
+    border-radius: 0;
+    font-family: inherit;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+    cursor: pointer;
+    transition: color 0.2s;
+    box-shadow: none;
+}
+
+.controls button:hover {
+    background: rgba(255,255,255,0.22);
+    transform: none;
+    box-shadow: none;
 }
 
 .controls {
@@ -88,7 +130,7 @@ button {
     -webkit-backdrop-filter: blur(15px);
     color: #ffffff;
     padding: 10.5px 24px; 
-    border-radius: 12px; 
+    border-radius: 0px; 
     font-size: 1.1rem; 
     font-weight: 700;
     cursor: pointer;
@@ -121,7 +163,7 @@ button:active {
     max-width: 400px; 
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px; 
+    border-radius: 0px; 
     padding: 0.75rem; 
     filter: brightness(1.1);
 }
@@ -162,7 +204,7 @@ button:active {
 
 .gallery::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
+    border-radius: 0px;
 }
 
 .gallery::-webkit-scrollbar-thumb:hover {
@@ -173,7 +215,7 @@ button:active {
     flex-shrink: 0;
     width: 67.5px; 
     height: 67.5px; 
-    border-radius: 9px; 
+    border-radius: 0px; 
     overflow: hidden;
     cursor: pointer;
     border: 1.5px solid rgba(255, 255, 255, 0.2);
@@ -256,7 +298,7 @@ button:active {
     background: rgba(30, 30, 50, 0.45);
     border: 1px solid rgba(255, 255, 255, 0.25);
     padding: 2.5rem 3rem; 
-    border-radius: 30px; 
+    border-radius: 0px; 
     text-align: center;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     width: 100%;
@@ -269,7 +311,7 @@ button:active {
     width: 100%;
     background: rgba(255, 255, 255, 0.1);
     border: 1.5px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
+    border-radius: 0px;
     padding: 14px 18px; 
     margin-bottom: 1.2rem;
     color: white;
@@ -303,7 +345,7 @@ button:active {
     border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border-radius: 20px;
+    border-radius: 0px;
     
     display: flex;
     flex-direction: column;
@@ -340,15 +382,15 @@ button:active {
 }
 .control-btn {
     justify-content: center;
-    gap: 10px;
-    padding: 8px;
+    gap: 0px;
+    padding: 0px;
 }
 
 .control-btn img {
     background-color: #ffffff00;
     font-size: 0.75rem;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     display: flex;
     filter: invert(1) brightness(1.5);
     transition: background 0.3s ease, transform 0.1s ease;
@@ -422,7 +464,7 @@ button:active {
 #chat-form button {
     padding: 8px 12px;
     font-size: 0.8rem;
-    border-radius: 8px;
+    border-radius: 0px;
     background: rgba(255, 255, 255, 0.1);
 }
 

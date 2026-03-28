@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pomodoro Chill Room</title>
+    <link rel="icon" type="image/jpg" href="images/lofi.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,27 +15,31 @@
     <main class="chill-background">  
         <div id="control-tab">
             <div class="control-btn" id="fullscreen-btn">
-                <img src="./icons/expand.png" alt="expand" id="expand-icon">
-                <img src="./icons/reduce.png" alt="reduce" id="shrink-icon">
+                <img src="./icons/icon-expand.png" alt="expand" id="expand-icon">
+                <img src="./icons/icon-compress.png" alt="compress" id="shrink-icon">
             </div>
             <div class="control-btn">
-                <img src="./icons/full-screen.png" alt="expand">
+                <img src="./icons/icon-info.png" alt="info">
             </div>
             <div class="control-btn">
-                <img src="./icons/reduce.png" alt="expand">
+                <img src="./icons/icon-upload.png" alt="upload">
             </div>
-            <div class="control-btn">
-                <img src="./icons/upload-icon.png" alt="expand">
+            <div class="control-btn" id="timer-toggle-btn">
+                <img src="./icons/icon-timer.png" alt="timer">
             </div>
         </div>
+
         <div class="room-title">Pomodoro Chill Room</div>
-        <div class="timer-card">
-            <p id="mode-label">Work Session</p>
-            <h1 id="time-display">25:00</h1>
+        <div class="timer-card" id="timer-card" style="display:none;">
+            <p id="mode-label">WORK</p>
+            <div class="timer-display-row">
+                    <span id="work-time">25:00</span>
+                    <span id="pause-time">+5:00</span>
+                </div>
             <div class="controls">
                 <button id="start-btn">Start</button>
                 <button id="pause-btn">Pause</button>
-                <button id="reset-btn">Reset</button>
+                <button id="reset-btn" >Reset</button>
             </div>
         </div>
         <audio controls autoplay class="audio-player">

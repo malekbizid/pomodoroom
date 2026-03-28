@@ -1,14 +1,58 @@
 // -- Minuteur
 let timeLeft = 25 * 60;
+let pauseLeft = 5 * 60;
 let timerId = null;
 let isWorkSession = true;
 const timeDisplay = document.getElementById('time-display');
+
+const workDisplay = document.getElementById('work-time');
+const pauseDisplay = document.getElementById('pause-time');
 const modeLabel = document.getElementById('mode-label');
 const startBtn = document.getElementById('start-btn');
 const pauseBtn = document.getElementById('pause-btn');
 const resetBtn = document.getElementById('reset-btn');
+const timerCard = document.getElementById('timer-card');
+const timerToggleBtn = document.getElementById('timer-toggle-btn');
 
 // -- Authentification
+const btn = document.getElementById('fullscreen-btn');
+const expandIcon = document.getElementById('expand-icon');
+const shrinkIcon = document.getElementById('shrink-icon');
+
+function toggleFullScreen() {
+    console.log('Toggling fullscreen mode');
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen()
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+function updateIconState() {
+    if (document.fullscreenElement) {
+        expandIcon.style.display = 'none';
+        shrinkIcon.style.display = 'block';
+    } else {
+        expandIcon.style.display = 'block';
+        shrinkIcon.style.display = 'none';
+    }
+}
+
+
+btn.addEventListener('click', toggleFullScreen);
+document.addEventListener('fullscreenchange', updateIconState);
+
+document.addEventListener('keydown', (e) => {
+    console.log(`Key pressed: ${e.key}`);
+    if (e.key === 'F11') {
+        console.log('F11 pressed, toggling fullscreen');
+        e.preventDefault();
+        toggleFullScreen();
+    }
+});
+
+
+// Login
 const authModal = document.getElementById('auth-modal');
 const authForm = document.getElementById('auth-form');
 const usernameInput = document.getElementById('username');
@@ -32,8 +76,7 @@ let tasks = [];
 
 // -- Plein écran
 const fullscreenBtn = document.getElementById('fullscreen-btn');
-const expandIcon = document.getElementById('expand-icon');
-const shrinkIcon = document.getElementById('shrink-icon');
+
 
 // -- Galerie
 const galleryItems = document.querySelectorAll('.gallery-item');
@@ -311,93 +354,84 @@ socket.on('chat message', (data) => {
 });
 
 
+// Timer
 
+function formatTime(secs) {
+    let m = Math.floor(secs / 60);
+    let s = secs % 60;
+    return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+}
 
 function updateDisplay() {
-    let minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60;
-    let formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-    let formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
-    timeDisplay.textContent = formattedMinutes + ':' + formattedSeconds;
+    workDisplay.textContent = formatTime(timeLeft);
+    pauseDisplay.textContent = formatTime(pauseLeft);
 }
 
 function startTimer() {
     if (timerId !== null) return;
+    startBtn.style.display = 'none';
+    pauseBtn.textContent = 'Pause';
+    pauseBtn.style.display = 'block';
+
     timerId = setInterval(() => {
-        timeLeft--;
-        updateDisplay();
-        if (timeLeft === 0) {
-            clearInterval(timerId);
-            timerId = null;
-            switchMode();
+        if (isWorkSession) {
+            timeLeft--;
+            if (timeLeft <= 0) { isWorkSession = false; modeLabel.textContent = 'BREAK'; }
+        } else {
+            pauseLeft--;
+            if (pauseLeft <= 0) {
+                clearInterval(timerId); timerId = null;
+                isWorkSession = true;
+                timeLeft = 25 * 60;
+                pauseLeft = 5 * 60;
+                modeLabel.textContent = 'WORK';
+                startBtn.style.display = '';
+                pauseBtn.style.display = 'none';
+            }
         }
+        updateDisplay();
     }, 1000);
 }
 
 function pauseTimer() {
+    if (timerId === null) return;
     clearInterval(timerId);
     timerId = null;
+    pauseBtn.textContent = 'Continue';
+    pauseBtn.onclick = resumeTimer;
+}
+
+function resumeTimer() {
+    pauseBtn.textContent = 'Pause';
+    pauseBtn.onclick = pauseTimer;
+    startTimer();
 }
 
 function resetTimer() {
-    clearInterval(timerId);
-    timerId = null;
+    clearInterval(timerId); timerId = null;
     isWorkSession = true;
     timeLeft = 25 * 60;
-    modeLabel.textContent = "Work Session";
+    pauseLeft = 5 * 60;
+    modeLabel.textContent = 'WORK';
+    startBtn.style.display = 'block';
+    pauseBtn.style.display = 'none';
+    pauseBtn.textContent = 'Pause';
+    pauseBtn.onclick = pauseTimer;
     updateDisplay();
 }
 
-function switchMode() {
-    isWorkSession = !isWorkSession;
-    if (isWorkSession) {
-        timeLeft = 25 * 60;
-        modeLabel.textContent = "Work Session";
-    } else {
-        timeLeft = 5 * 60;
-        modeLabel.textContent = "Break Time";
-    }
-    updateDisplay();
-}
+timerToggleBtn.addEventListener('click', () => {
+    timerCard.style.display = timerCard.style.display === 'none' ? 'block' : 'none';
+});
 
 startBtn.addEventListener('click', startTimer);
 pauseBtn.addEventListener('click', pauseTimer);
 resetBtn.addEventListener('click', resetTimer);
 
-updateDisplay(); 
+pauseBtn.style.display = 'none';
+updateDisplay();
 
-
-
-
-function toggleFullScreen() {
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => console.log(err));
-    } else {
-        document.exitFullscreen();
-    }
-}
-
-function updateIconState() {
-    if (document.fullscreenElement) {
-        expandIcon.style.display = 'none';
-        shrinkIcon.style.display = 'block';
-    } else {
-        expandIcon.style.display = 'block';
-        shrinkIcon.style.display = 'none';
-    }
-}
-
-if (fullscreenBtn) fullscreenBtn.addEventListener('click', toggleFullScreen);
-document.addEventListener('fullscreenchange', updateIconState);
-
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'F11') {
-        e.preventDefault();
-        toggleFullScreen();
-    }
-});
-
-
+// Galerie 
 
 
 if (galleryItems.length > 0) {
@@ -416,6 +450,7 @@ galleryItems.forEach(item => {
     }
 });
 
+// background upload
 if(uploadImage && backgroundFileInput) {
     uploadImage.addEventListener('click', () => {
         backgroundFileInput.click();
