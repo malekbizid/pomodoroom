@@ -1,12 +1,16 @@
 let timeLeft = 25 * 60;
+let pauseLeft = 5 * 60;
 let timerId = null;
 let isWorkSession = true;
 
-const timeDisplay = document.getElementById('time-display');
+const workDisplay = document.getElementById('work-time');
+const pauseDisplay = document.getElementById('pause-time');
 const modeLabel = document.getElementById('mode-label');
 const startBtn = document.getElementById('start-btn');
 const pauseBtn = document.getElementById('pause-btn');
 const resetBtn = document.getElementById('reset-btn');
+const timerCard = document.getElementById('timer-card');
+const timerToggleBtn = document.getElementById('timer-toggle-btn');
 
 const btn = document.getElementById('fullscreen-btn');
 const expandIcon = document.getElementById('expand-icon');
@@ -45,7 +49,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 
-// --- LOGIQUE D'AUTHENTIFICATION ---
+// Login
 const authModal = document.getElementById('auth-modal');
 const authForm = document.getElementById('auth-form');
 const usernameInput = document.getElementById('username');
@@ -143,7 +147,7 @@ logoutBtn.addEventListener('click', async () => {
     }
 });
 
-// --- LOGIQUE DU CHAT ---
+// Chat
 const chatForm = document.getElementById('chat-form');
 const chatInput = document.getElementById('chat-input');
 const chatMessages = document.getElementById('chat-messages');
@@ -192,73 +196,89 @@ socket.on('chat message', (data) => {
 });
 
 
-// --- LOGIQUE DU MINUTEUR ---
+// Timer
+
+function formatTime(secs) {
+    let m = Math.floor(secs / 60);
+    let s = secs % 60;
+    return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+}
 
 function updateDisplay() {
-    let minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60;
-
-    let formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-    let formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
-    
-    timeDisplay.textContent = formattedMinutes + ':' + formattedSeconds;
+    workDisplay.textContent = formatTime(timeLeft);
+    pauseDisplay.textContent = formatTime(pauseLeft);
 }
 
 function startTimer() {
     if (timerId !== null) return;
+    startBtn.style.display = 'none';
+    pauseBtn.textContent = 'Pause';
+    pauseBtn.style.display = 'block';
 
     timerId = setInterval(() => {
-        timeLeft--;
-        updateDisplay();
-        if (timeLeft === 0) {
-            clearInterval(timerId);
-            timerId = null;
-            switchMode();
+        if (isWorkSession) {
+            timeLeft--;
+            if (timeLeft <= 0) { isWorkSession = false; modeLabel.textContent = 'BREAK'; }
+        } else {
+            pauseLeft--;
+            if (pauseLeft <= 0) {
+                clearInterval(timerId); timerId = null;
+                isWorkSession = true;
+                timeLeft = 25 * 60;
+                pauseLeft = 5 * 60;
+                modeLabel.textContent = 'WORK';
+                startBtn.style.display = '';
+                pauseBtn.style.display = 'none';
+            }
         }
+        updateDisplay();
     }, 1000);
 }
 
 function pauseTimer() {
+    if (timerId === null) return;
     clearInterval(timerId);
     timerId = null;
+    pauseBtn.textContent = 'Continue';
+    pauseBtn.onclick = resumeTimer;
+}
+
+function resumeTimer() {
+    pauseBtn.textContent = 'Pause';
+    pauseBtn.onclick = pauseTimer;
+    startTimer();
 }
 
 function resetTimer() {
-    clearInterval(timerId);
-    timerId = null;
+    clearInterval(timerId); timerId = null;
     isWorkSession = true;
     timeLeft = 25 * 60;
-    modeLabel.textContent = "Work Session";
+    pauseLeft = 5 * 60;
+    modeLabel.textContent = 'WORK';
+    startBtn.style.display = 'block';
+    pauseBtn.style.display = 'none';
+    pauseBtn.textContent = 'Pause';
+    pauseBtn.onclick = pauseTimer;
     updateDisplay();
 }
 
-function switchMode() {
-    isWorkSession = !isWorkSession;
-    
-    if (isWorkSession) {
-        timeLeft = 25 * 60;
-        modeLabel.textContent = "Work Session";
-    } else {
-        timeLeft = 5 * 60;
-        modeLabel.textContent = "Break Time";
-    }
-    
-    updateDisplay();
-}
+timerToggleBtn.addEventListener('click', () => {
+    timerCard.style.display = timerCard.style.display === 'none' ? 'block' : 'none';
+});
 
 startBtn.addEventListener('click', startTimer);
 pauseBtn.addEventListener('click', pauseTimer);
 resetBtn.addEventListener('click', resetTimer);
 
+pauseBtn.style.display = 'none';
 updateDisplay();
 
-// --- LOGIQUE DE LA GALERIE ---
+// Galerie 
 const galleryItems = document.querySelectorAll('.gallery-item');
 const body = document.body;
 const uploadImage = document.getElementById('upload-image');
 const backgroundFileInput = document.getElementById('backgroundFileInput');
 
-// CORRECTION : On vérifie que la galerie n'est pas vide pour éviter un crash
 if (galleryItems.length > 0) {
     galleryItems[0].classList.add('active');
 }
@@ -276,7 +296,7 @@ galleryItems.forEach(item => {
     }
 });
 
-// File upload for background
+// background upload
 if(uploadImage && backgroundFileInput) {
     uploadImage.addEventListener('click', () => {
         backgroundFileInput.click();
