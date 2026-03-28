@@ -448,3 +448,133 @@ button:active {
     background: rgba(255, 107, 107, 0.4);
     border-color: rgba(255, 107, 107, 0.6);
 }
+
+/* --- STYLE DE LA TO-DO LIST --- */
+.todo-container {
+    position: fixed;
+    bottom: 370px; /* Aligné juste au-dessus du chat */
+    left: 20px;
+    width: 300px;
+    max-height: 250px; /* Ne prend pas tout l'écran */
+    background: rgba(30, 30, 50, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.todo-header {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 1px;
+}
+
+#todo-list {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#todo-list::-webkit-scrollbar { width: 5px; }
+#todo-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 5px; }
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.todo-item:hover { background: rgba(255, 255, 255, 0.15); }
+
+/* Style quand la tâche est terminée */
+.todo-item.completed span {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.todo-item span {
+    cursor: pointer; /* Montre qu'on peut cliquer pour barrer */
+    flex-grow: 1;
+    word-break: break-all;
+}
+
+.delete-btn {
+    background: transparent;
+    border: none;
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 5px;
+    box-shadow: none;
+}
+
+.delete-btn:hover {
+    transform: scale(1.2);
+    box-shadow: none;
+    background: transparent;
+}
+
+#todo-form {
+    display: flex;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 8px;
+}
+
+#todo-input {
+    flex-grow: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 8px;
+    color: white;
+    font-size: 0.85rem;
+    outline: none;
+}
+
+#todo-input::placeholder { color: rgba(255, 255, 255, 0.4); }
+
+#todo-form button {
+    padding: 8px 14px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#todo-form button:hover { background: rgba(255, 255, 255, 0.2); }
+/* --- DRAG AND DROP POUR LA TO-DO LIST --- */
+.todo-item {
+    cursor: grab; /* Ajoute l'icône de la petite main */
+}
+
+.todo-item:active {
+    cursor: grabbing; /* Main fermée quand on clique */
+}
+
+.todo-item.dragging {
+    opacity: 0.5; /* Rend la tâche semi-transparente pendant qu'on la déplace */
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px dashed rgba(255, 255, 255, 0.6);
+}

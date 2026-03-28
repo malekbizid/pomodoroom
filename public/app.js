@@ -1,51 +1,14 @@
+// -- Minuteur
 let timeLeft = 25 * 60;
 let timerId = null;
 let isWorkSession = true;
-
 const timeDisplay = document.getElementById('time-display');
 const modeLabel = document.getElementById('mode-label');
 const startBtn = document.getElementById('start-btn');
 const pauseBtn = document.getElementById('pause-btn');
 const resetBtn = document.getElementById('reset-btn');
 
-const btn = document.getElementById('fullscreen-btn');
-const expandIcon = document.getElementById('expand-icon');
-const shrinkIcon = document.getElementById('shrink-icon');
-
-function toggleFullScreen() {
-    console.log('Toggling fullscreen mode');
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen()
-    } else {
-        document.exitFullscreen();
-    }
-}
-
-function updateIconState() {
-    if (document.fullscreenElement) {
-        expandIcon.style.display = 'none';
-        shrinkIcon.style.display = 'block';
-    } else {
-        expandIcon.style.display = 'block';
-        shrinkIcon.style.display = 'none';
-    }
-}
-
-
-btn.addEventListener('click', toggleFullScreen);
-document.addEventListener('fullscreenchange', updateIconState);
-
-document.addEventListener('keydown', (e) => {
-    console.log(`Key pressed: ${e.key}`);
-    if (e.key === 'F11') {
-        console.log('F11 pressed, toggling fullscreen');
-        e.preventDefault();
-        toggleFullScreen();
-    }
-});
-
-
-// --- LOGIQUE D'AUTHENTIFICATION ---
+// -- Authentification
 const authModal = document.getElementById('auth-modal');
 const authForm = document.getElementById('auth-form');
 const usernameInput = document.getElementById('username');
@@ -53,12 +16,35 @@ const passwordInput = document.getElementById('password');
 const authMessage = document.getElementById('auth-message');
 const registerBtn = document.getElementById('register-btn');
 const logoutBtn = document.getElementById('logout-btn');
-
 let currentUser = "Anonyme";
-// On ne connecte pas le chat tout de suite
-const socket = io({ autoConnect: false }); 
 
-// Vérifier si l'utilisateur est déjà connecté en arrivant sur la page
+// -- Chat
+const socket = io({ autoConnect: false }); 
+const chatForm = document.getElementById('chat-form');
+const chatInput = document.getElementById('chat-input');
+const chatMessages = document.getElementById('chat-messages');
+
+// -- To-Do List
+const todoForm = document.getElementById('todo-form');
+const todoInput = document.getElementById('todo-input');
+const todoList = document.getElementById('todo-list');
+let tasks = [];
+
+// -- Plein écran
+const fullscreenBtn = document.getElementById('fullscreen-btn');
+const expandIcon = document.getElementById('expand-icon');
+const shrinkIcon = document.getElementById('shrink-icon');
+
+// -- Galerie
+const galleryItems = document.querySelectorAll('.gallery-item');
+const body = document.body;
+const uploadImage = document.getElementById('upload-image');
+const backgroundFileInput = document.getElementById('backgroundFileInput');
+
+
+
+
+// Vérifier si l'utilisateur est déjà connecté
 fetch('/api/me')
     .then(res => res.json())
     .then(data => {
@@ -68,10 +54,10 @@ fetch('/api/me')
             currentUser = data.username;
             authModal.classList.add('hidden');
             socket.connect();
+            fetchTasks(); 
         }
     });
 
-// Fonction utilitaire pour les messages
 function showMessage(text, isError = false) {
     authMessage.textContent = text;
     authMessage.style.color = isError ? '#ff6b6b' : '#51cf66';
@@ -96,6 +82,7 @@ authForm.addEventListener('submit', async (e) => {
                 authModal.classList.add('hidden'); 
                 currentUser = username;
                 socket.connect(); 
+                fetchTasks(); 
             }, 800);
         } else {
             const errorText = await response.text();
@@ -143,10 +130,147 @@ logoutBtn.addEventListener('click', async () => {
     }
 });
 
-// --- LOGIQUE DU CHAT ---
-const chatForm = document.getElementById('chat-form');
-const chatInput = document.getElementById('chat-input');
-const chatMessages = document.getElementById('chat-messages');
+
+
+
+async function fetchTasks() {
+    try {
+        const response = await fetch('/api/todos', { cache: 'no-store' }); 
+        if (response.ok) {
+            tasks = await response.json();
+            renderTasks();
+        }
+    } catch (err) { console.error("Erreur récupération", err); }
+}
+
+function renderTasks() {
+    todoList.innerHTML = ''; 
+    tasks.sort((a, b) => a.position - b.position);
+
+    tasks.forEach((task) => {
+        const li = document.createElement('li');
+        li.classList.add('todo-item');
+        li.draggable = true; 
+        li.dataset.id = task.id; 
+        
+        if (task.completed) li.classList.add('completed');
+
+        const textSpan = document.createElement('span');
+        textSpan.textContent = task.text;
+        
+        textSpan.addEventListener('click', async () => {
+            const newStatus = !task.completed;
+            try {
+                await fetch(`/api/todos/${task.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ completed: newStatus })
+                });
+                task.completed = newStatus;
+                renderTasks();
+            } catch(err) { console.error(err); }
+        });
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.innerHTML = '&times;';
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.addEventListener('click', async () => {
+            try {
+                await fetch(`/api/todos/${task.id}`, { method: 'DELETE' });
+                tasks = tasks.filter(t => t.id !== task.id);
+                renderTasks();
+            } catch(err) { console.error(err); }
+        });
+
+        // Événements Drag & Drop
+        li.addEventListener('dragstart', () => li.classList.add('dragging'));
+        li.addEventListener('dragend', () => {
+            li.classList.remove('dragging');
+            setTimeout(() => {
+                saveNewOrder(); 
+            }, 50);        
+        });
+
+        li.appendChild(textSpan);
+        li.appendChild(deleteBtn);
+        todoList.appendChild(li);
+    });
+}
+
+if (todoForm) {
+    todoForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const text = todoInput.value.trim();
+        
+        if (text !== '') {
+            try {
+                const response = await fetch('/api/todos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: text, position: tasks.length }) 
+                });
+                if (response.ok) {
+                    const newTask = await response.json();
+                    tasks.push(newTask);
+                    todoInput.value = '';
+                    renderTasks();
+                }
+            } catch(err) { console.error(err); }
+        }
+    });
+}
+
+// Gestion du déplacement visuel
+todoList.addEventListener('dragover', (e) => {
+    e.preventDefault(); 
+    const afterElement = getDragAfterElement(todoList, e.clientY);
+    const draggable = document.querySelector('.dragging');
+    if (draggable) {
+        if (afterElement == null) {
+            todoList.appendChild(draggable);
+        } else {
+            todoList.insertBefore(draggable, afterElement);
+        }
+    }
+});
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.todo-item:not(.dragging)')];
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+// Envoyer le nouvel ordre à MySQL
+async function saveNewOrder() {
+    const items = [...todoList.querySelectorAll('.todo-item')];
+    const orderedTasks = [];
+
+    items.forEach((item, index) => {
+        const taskId = parseInt(item.dataset.id);
+        if (!isNaN(taskId)) {
+            orderedTasks.push({ id: taskId, position: index });
+            const task = tasks.find(t => t.id === taskId);
+            if (task) task.position = index;
+        }
+    });
+
+    try {
+        await fetch('/api/todos/reorder', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ orderedTasks })
+        });
+    } catch(err) { console.error('Erreur réorganisation', err); }
+}
+
+
 
 chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -156,18 +280,15 @@ chatForm.addEventListener('submit', (e) => {
     }
 });
 
-// Fonction pour ajouter un message à l'écran
 function appendMessage(user, text) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message');
     
-    // Style différent si c'est NOTRE message
     if(user === currentUser) {
         messageElement.style.background = "rgba(255, 255, 255, 0.25)"; 
         messageElement.style.alignSelf = "flex-end"; 
     }
 
-    // Protection XSS
     const strongPseudo = document.createElement('strong');
     strongPseudo.textContent = user + " : ";
     
@@ -178,35 +299,30 @@ function appendMessage(user, text) {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// 1. Écouter l'historique des messages à la connexion
 socket.on('chat history', (messages) => {
-    chatMessages.innerHTML = ''; // On vide le chat pour éviter les doublons
+    chatMessages.innerHTML = ''; 
     messages.forEach(msg => {
-        appendMessage(msg.username, msg.text); // On affiche chaque ancien message
+        appendMessage(msg.username, msg.text);
     });
 });
 
-// 2. Écouter les nouveaux messages en direct
 socket.on('chat message', (data) => {
     appendMessage(data.user, data.text);
 });
 
 
-// --- LOGIQUE DU MINUTEUR ---
+
 
 function updateDisplay() {
     let minutes = Math.floor(timeLeft / 60);
     let seconds = timeLeft % 60;
-
     let formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
     let formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
-    
     timeDisplay.textContent = formattedMinutes + ':' + formattedSeconds;
 }
 
 function startTimer() {
     if (timerId !== null) return;
-
     timerId = setInterval(() => {
         timeLeft--;
         updateDisplay();
@@ -234,7 +350,6 @@ function resetTimer() {
 
 function switchMode() {
     isWorkSession = !isWorkSession;
-    
     if (isWorkSession) {
         timeLeft = 25 * 60;
         modeLabel.textContent = "Work Session";
@@ -242,7 +357,6 @@ function switchMode() {
         timeLeft = 5 * 60;
         modeLabel.textContent = "Break Time";
     }
-    
     updateDisplay();
 }
 
@@ -250,15 +364,42 @@ startBtn.addEventListener('click', startTimer);
 pauseBtn.addEventListener('click', pauseTimer);
 resetBtn.addEventListener('click', resetTimer);
 
-updateDisplay();
+updateDisplay(); 
 
-// --- LOGIQUE DE LA GALERIE ---
-const galleryItems = document.querySelectorAll('.gallery-item');
-const body = document.body;
-const uploadImage = document.getElementById('upload-image');
-const backgroundFileInput = document.getElementById('backgroundFileInput');
 
-// CORRECTION : On vérifie que la galerie n'est pas vide pour éviter un crash
+
+
+function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => console.log(err));
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+function updateIconState() {
+    if (document.fullscreenElement) {
+        expandIcon.style.display = 'none';
+        shrinkIcon.style.display = 'block';
+    } else {
+        expandIcon.style.display = 'block';
+        shrinkIcon.style.display = 'none';
+    }
+}
+
+if (fullscreenBtn) fullscreenBtn.addEventListener('click', toggleFullScreen);
+document.addEventListener('fullscreenchange', updateIconState);
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'F11') {
+        e.preventDefault();
+        toggleFullScreen();
+    }
+});
+
+
+
+
 if (galleryItems.length > 0) {
     galleryItems[0].classList.add('active');
 }
@@ -267,7 +408,6 @@ galleryItems.forEach(item => {
     if (item !== uploadImage) {
         item.addEventListener('click', () => {
             const imageUrl = item.getAttribute('data-image');
-            
             body.style.backgroundImage = `url('${imageUrl}')`;
             
             galleryItems.forEach(gItem => gItem.classList.remove('active'));
@@ -276,7 +416,6 @@ galleryItems.forEach(item => {
     }
 });
 
-// File upload for background
 if(uploadImage && backgroundFileInput) {
     uploadImage.addEventListener('click', () => {
         backgroundFileInput.click();
@@ -288,7 +427,6 @@ if(uploadImage && backgroundFileInput) {
             const reader = new FileReader();
             reader.onload = (event) => {
                 body.style.backgroundImage = `url('${event.target.result}')`;
-                
                 galleryItems.forEach(gItem => gItem.classList.remove('active'));
                 uploadImage.classList.add('active');
             };
