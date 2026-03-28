@@ -316,3 +316,27 @@ if(uploadImage && backgroundFileInput) {
         }
     });
 }
+
+// Player
+const audio = document.getElementById('audio-element');
+const playPauseBtn = document.getElementById('play-pause-btn');
+
+playPauseBtn.addEventListener('click', () => {
+    if (audio.paused) {
+        audio.play();
+        playPauseBtn.textContent = '⏸';
+    } else {
+        audio.pause();
+        playPauseBtn.textContent = '▶';
+    }
+});
+
+// prev/next can be wired to a playlist array later
+document.getElementById('prev-btn').addEventListener('click', () => {
+    audio.currentTime = 0;
+});
+document.getElementById('next-btn').addEventListener('click', () => {
+    audio.currentTime = 0;
+    audio.play();
+    playPauseBtn.textContent = '⏸';
+});

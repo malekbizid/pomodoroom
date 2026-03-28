@@ -42,10 +42,20 @@
                 <button id="reset-btn" >Reset</button>
             </div>
         </div>
-        <audio controls autoplay class="audio-player">
+        <div class="player-bar">
+    <div class="player-controls">
+            <button class="player-btn" id="prev-btn">⏮</button>
+            <button class="player-btn" id="play-pause-btn">▶</button>
+            <button class="player-btn" id="next-btn">⏭</button>
+        </div>
+        <div class="player-track">
+            <span id="track-title">lofi hip hop radio - beats to study/chill/relax</span>
+        </div>
+        <audio id="audio-element">
             <source src="/audio/watermello-lofi-girl-chill.mp3" type="audio/mpeg">
         </audio>
-    </main>
+    </div>
+    
 
     <div class="gallery-container">
         <div class="gallery">
@@ -66,6 +76,8 @@
 
     <input type="file" id="backgroundFileInput" accept="image/*" style="display: none;">
 
+
+
     <div class="chat-container">
         <div class="chat-header">Lofi Chat</div>
         <div id="chat-messages">
@@ -76,6 +88,8 @@
         </form>
     </div>
 
+    </main>
+    
     <div id="auth-modal" class="modal-overlay">
         <div class="auth-card">
             <h2>Authentification</h2>
