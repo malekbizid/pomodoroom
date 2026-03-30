@@ -7,12 +7,11 @@
     <link rel="icon" type="image/jpg" href="images/lofi.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- ── TOP BAR ────────────────────────────────── -->
     <div class="top-bar">
         <div class="top-left">
             <span id="listening-now">listening now 0 <span class="dot">•</span></span>
@@ -29,10 +28,8 @@
         </div>
     </div>
 
-    <!-- ── SCENE (background image container) ─────── -->
     <div class="scene" id="scene">
 
-        <!-- Timer overlay (top-right of scene) -->
         <div class="timer-card" id="timer-card" style="display:none;">
             <p id="mode-label">WORK</p>
             <div class="timer-display-row">
@@ -46,29 +43,43 @@
             </div>
         </div>
 
-        <!-- To-Do overlay (top-left of scene) -->
         <div class="todo-container">
             <div class="panel-header">to-do</div>
             <ul id="todo-list"></ul>
             <form id="todo-form">
-                <input type="text" id="todo-input" autocomplete="off" placeholder="new task..." required />
+                <input type="text" id="todo-input" autocomplete="off" placeholder="new task...">
                 <button type="submit">+</button>
             </form>
         </div>
 
-        <!-- Chat overlay (bottom-right of scene) -->
         <div class="chat-container">
             <div class="panel-header">chat</div>
             <div id="chat-messages"></div>
             <form id="chat-form">
-                <input type="text" id="chat-input" autocomplete="off" placeholder="message..." />
+                <input type="text" id="chat-input" autocomplete="off" placeholder="message...">
                 <button type="submit">→</button>
             </form>
         </div>
 
+        <div class="gallery-container">
+            <div class="gallery">
+                <div class="gallery-item active" data-image="./images/lofi-sunset.jpg">
+                    <img src="./images/lofi-sunset.jpg" alt="Lofi Sunset">
+                </div>
+                <div class="gallery-item" data-image="./images/lofi-girl.jpg">
+                    <img src="./images/lofi-girl.jpg" alt="Lofi Girl">
+                </div>
+                <div class="gallery-item" data-image="./images/lofi-room.jpg">
+                    <img src="./images/lofi-room.jpg" alt="Lofi Room">
+                </div>
+                <div class="gallery-item" id="upload-image">
+                    <img src="./icons/upload-icon-2.png" alt="upload">
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- ── PLAYER BAR ──────────────────────────────── -->
     <div class="player-bar">
         <div class="player-controls">
             <button class="player-btn" id="prev-btn">⏮</button>
@@ -88,27 +99,8 @@
         </audio>
     </div>
 
-    <!-- ── GALLERY ─────────────────────────────────── -->
-    <div class="gallery-container">
-        <div class="gallery">
-            <div class="gallery-item active" data-image="./images/lofi-sunset.jpg">
-                <img src="./images/lofi-sunset.jpg" alt="Lofi Sunset">
-            </div>
-            <div class="gallery-item" data-image="./images/lofi-girl.jpg">
-                <img src="./images/lofi-girl.jpg" alt="Lofi Girl">
-            </div>
-            <div class="gallery-item" data-image="./images/lofi-room.jpg">
-                <img src="./images/lofi-room.jpg" alt="Lofi Room">
-            </div>
-            <div class="gallery-item" id="upload-image">
-                <img src="./icons/upload-icon-2.png" alt="upload">
-            </div>
-        </div>
-    </div>
-
     <input type="file" id="backgroundFileInput" accept="image/*" style="display:none;">
 
-    <!-- ── AUTH MODAL ──────────────────────────────── -->
     <div id="auth-modal" class="modal-overlay">
         <div class="auth-card">
             <h2>pomodoroom</h2>

@@ -1,9 +1,8 @@
-/* ── RESET ───────────────────────────────────────── */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Pixelify Sans', monospace;
+    font-family: 'DM Sans', sans-serif;
 }
 
 button {
@@ -14,7 +13,6 @@ button {
     color: inherit;
 }
 
-/* ── BODY (black shell) ──────────────────────────── */
 body {
     height: 100vh;
     width: 100vw;
@@ -25,58 +23,50 @@ body {
     flex-direction: column;
 }
 
-/* ── TOP BAR ─────────────────────────────────────── */
 .top-bar {
-    height: 44px;
+    height: 48px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 18px;
+    padding: 0 16px;
 }
 
-.top-left {
+.top-left, .top-right {
     display: flex;
     align-items: center;
-    gap: 14px;
-}
-
-.top-right {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
 #listening-now {
-    font-size: 0.72rem;
-    color: rgba(255, 255, 255, 0.55);
-    letter-spacing: 0.5px;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.3px;
 }
 
 .dot {
-    color: rgba(120, 220, 120, 0.8);
+    color: rgba(120, 220, 120, 0.85);
     animation: blink 2s ease-in-out infinite;
 }
 
 @keyframes blink {
     0%, 100% { opacity: 1; }
-    50%       { opacity: 0.3; }
+    50%       { opacity: 0.2; }
 }
 
-/* ── CONTROL BUTTONS ─────────────────────────────── */
 .control-btn {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 4px;
     cursor: pointer;
-    opacity: 0.55;
+    opacity: 0.6;
     transition: opacity 0.2s;
 }
 
 .control-btn img {
-    width: 20px;
-    height: 20px;
+    width: 34px;
+    height: 34px;
     filter: invert(1) brightness(1.5);
     display: block;
 }
@@ -86,17 +76,16 @@ body {
 .control-btn:hover  { opacity: 1; }
 .control-btn:active { opacity: 0.4; }
 
-/* ── LOGOUT BUTTON ───────────────────────────────── */
 .logout-btn {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    color: rgba(255, 255, 255, 0.45);
-    padding: 4px 10px;
-    font-size: 0.68rem;
-    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 5px 12px;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
     text-transform: uppercase;
     transition: color 0.2s, border-color 0.2s;
-    margin-left: 6px;
+    margin-left: 4px;
 }
 
 .logout-btn:hover {
@@ -104,7 +93,6 @@ body {
     border-color: rgba(255, 255, 255, 0.4);
 }
 
-/* ── SCENE (background image frame) ─────────────── */
 .scene {
     flex: 1;
     position: relative;
@@ -115,19 +103,17 @@ body {
     overflow: hidden;
 }
 
-/* ── TIMER OVERLAY ───────────────────────────────── */
 .timer-card {
     position: absolute;
     top: 12px;
     right: 12px;
     text-align: right;
     padding: 4px 8px;
-    background: transparent;
     z-index: 10;
 }
 
 #mode-label {
-    font-size: 0.55rem;
+    font-size: 0.6rem;
     color: rgba(255, 255, 255, 0.45);
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -138,83 +124,76 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 #work-time {
-    font-size: 1.3rem;
-    font-weight: 700;
+    font-family: 'DM Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 500;
     color: white;
     letter-spacing: 2px;
-    line-height: 1.2;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+    line-height: 1.1;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
 }
 
 #pause-time {
-    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.5);
     letter-spacing: 1px;
     line-height: 1.2;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 .controls {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 12px;
 }
 
 .controls button {
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.55);
     padding: 0;
-    font-size: 0.68rem;
-    letter-spacing: 1px;
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
     text-transform: lowercase;
     transition: color 0.2s;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
 .controls button:hover { color: white; }
 
-/* ── PANEL SHARED STYLES ─────────────────────────── */
 .panel-header {
-    padding: 6px 10px;
-    background: rgba(255, 255, 255, 0.04);
+    padding: 7px 10px;
+    background: rgba(0, 0, 0, 0.25);
     border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    font-size: 0.65rem;
-    color: rgba(255, 255, 255, 0.45);
-    letter-spacing: 2.5px;
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 2px;
     text-transform: uppercase;
 }
 
-/* ── TODO OVERLAY ────────────────────────────────── */
 .todo-container {
     position: absolute;
     top: 12px;
     left: 12px;
-    width: 210px;
-    max-height: 230px;
-    background: rgba(8, 8, 12, 0.6);
+    width: 215px;
+    background: rgba(8, 8, 12, 0.65);
     border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
     z-index: 10;
 }
 
 #todo-list {
     list-style: none;
-    padding: 8px;
-    margin: 0;
+    padding: 6px 8px;
+    max-height: 200px;
     overflow-y: auto;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
@@ -224,42 +203,41 @@ body {
 
 .todo-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 5px 7px;
-    font-size: 0.75rem;
+    gap: 6px;
+    padding: 5px 6px;
+    font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.8);
     cursor: grab;
-    transition: background 0.2s;
+    border-radius: 2px;
+    transition: background 0.15s;
 }
 
 .todo-item:hover { background: rgba(255, 255, 255, 0.06); }
 
 .todo-item.completed span {
     text-decoration: line-through;
-    color: rgba(255, 255, 255, 0.28);
+    color: rgba(255, 255, 255, 0.3);
 }
 
 .todo-item span {
     cursor: pointer;
-    flex-grow: 1;
+    flex: 1;
     word-break: break-word;
+    line-height: 1.3;
 }
 
 .todo-item.dragging {
     opacity: 0.35;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px dashed rgba(255, 255, 255, 0.25);
 }
 
 .delete-btn {
-    background: transparent;
-    border: none;
-    color: rgba(255, 100, 100, 0.5);
-    font-size: 0.85rem;
-    padding: 0 4px;
-    transition: color 0.2s;
+    color: rgba(255, 100, 100, 0.45);
+    font-size: 1rem;
+    padding: 0 2px;
     line-height: 1;
+    flex-shrink: 0;
+    transition: color 0.2s;
 }
 
 .delete-btn:hover { color: rgba(255, 100, 100, 0.9); }
@@ -267,43 +245,44 @@ body {
 #todo-form {
     display: flex;
     padding: 6px 8px;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.2);
     border-top: 1px solid rgba(255, 255, 255, 0.07);
     gap: 6px;
 }
 
 #todo-input {
-    flex-grow: 1;
-    background: rgba(255, 255, 255, 0.04);
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 5px 7px;
+    padding: 5px 8px;
     color: white;
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     font-family: inherit;
     outline: none;
+    border-radius: 2px;
 }
 
 #todo-input::placeholder { color: rgba(255, 255, 255, 0.25); }
 
 #todo-form button {
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
     color: rgba(255, 255, 255, 0.7);
     padding: 5px 10px;
-    font-size: 0.9rem;
-    transition: background 0.2s;
+    font-size: 1rem;
+    border-radius: 2px;
+    transition: background 0.15s;
 }
 
-#todo-form button:hover { background: rgba(255, 255, 255, 0.14); }
+#todo-form button:hover { background: rgba(255, 255, 255, 0.15); }
 
-/* ── CHAT OVERLAY ────────────────────────────────── */
 .chat-container {
     position: absolute;
-    bottom: 12px;
+    bottom: 90px;
     right: 12px;
     width: 230px;
-    height: 270px;
-    background: rgba(8, 8, 12, 0.6);
+    height: 260px;
+    background: rgba(8, 8, 12, 0.65);
     border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -314,7 +293,7 @@ body {
 }
 
 #chat-messages {
-    flex-grow: 1;
+    flex: 1;
     padding: 10px;
     overflow-y: auto;
     display: flex;
@@ -328,55 +307,118 @@ body {
 #chat-messages::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); }
 
 .message {
-    background: rgba(255, 255, 255, 0.06);
-    padding: 5px 8px;
+    background: rgba(255, 255, 255, 0.07);
+    padding: 5px 9px;
     max-width: 92%;
     width: fit-content;
-    font-size: 0.72rem;
-    line-height: 1.45;
+    font-size: 0.78rem;
+    line-height: 1.4;
     word-wrap: break-word;
+    border-radius: 2px;
 }
 
 #chat-form {
     display: flex;
     padding: 6px 8px;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.2);
     border-top: 1px solid rgba(255, 255, 255, 0.07);
     gap: 6px;
+    flex-shrink: 0;
 }
 
 #chat-input {
-    flex-grow: 1;
-    background: rgba(255, 255, 255, 0.04);
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 5px 7px;
+    padding: 5px 8px;
     color: white;
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     font-family: inherit;
     outline: none;
+    border-radius: 2px;
 }
 
 #chat-input::placeholder { color: rgba(255, 255, 255, 0.25); }
 
 #chat-form button {
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
     color: rgba(255, 255, 255, 0.7);
     padding: 5px 10px;
     font-size: 0.85rem;
-    transition: background 0.2s;
+    border-radius: 2px;
+    transition: background 0.15s;
 }
 
-#chat-form button:hover { background: rgba(255, 255, 255, 0.14); }
+#chat-form button:hover { background: rgba(255, 255, 255, 0.15); }
 
-/* ── PLAYER BAR ──────────────────────────────────── */
+.gallery-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 82px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+    z-index: 10;
+}
+
+.gallery {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    overflow-x: auto;
+    padding: 0 16px;
+    scrollbar-width: none;
+}
+
+.gallery::-webkit-scrollbar { display: none; }
+
+.gallery-item {
+    flex-shrink: 0;
+    width: 55px;
+    height: 55px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+#upload-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(255, 255, 255, 0.25);
+}
+
+#upload-image img {
+    width: 38%;
+    height: 38%;
+    object-fit: contain;
+    filter: invert(1) brightness(1.2);
+    opacity: 0.6;
+}
+
+.gallery-item:hover       { transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.4); }
+.gallery-item.active      { border-color: rgba(255, 255, 255, 0.8); box-shadow: 0 0 8px rgba(255, 255, 255, 0.2); }
+
 .player-bar {
-    height: 44px;
+    height: 38px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 0 18px;
+    padding: 0 16px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -391,20 +433,19 @@ body {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     padding: 3px 5px;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.55);
     transition: color 0.15s;
 }
 
 .player-btn:hover { color: white; }
 
-/* Volume visualization bars */
 .volume-viz {
     display: flex;
     align-items: flex-end;
     gap: 2px;
-    height: 16px;
+    height: 15px;
     flex-shrink: 0;
 }
 
@@ -416,29 +457,28 @@ body {
     animation: vizBar 1.2s ease-in-out infinite alternate;
 }
 
-.volume-viz span:nth-child(1)  { height: 35%; animation-duration: 0.80s; animation-delay: 0.00s; }
+.volume-viz span:nth-child(1)  { height: 35%; animation-duration: 0.80s; }
 .volume-viz span:nth-child(2)  { height: 65%; animation-duration: 1.10s; animation-delay: 0.10s; }
 .volume-viz span:nth-child(3)  { height: 100%; animation-duration: 0.90s; animation-delay: 0.20s; }
 .volume-viz span:nth-child(4)  { height: 55%; animation-duration: 1.30s; animation-delay: 0.05s; }
 .volume-viz span:nth-child(5)  { height: 80%; animation-duration: 0.70s; animation-delay: 0.15s; }
 .volume-viz span:nth-child(6)  { height: 45%; animation-duration: 1.00s; animation-delay: 0.25s; }
-.volume-viz span:nth-child(7)  { height: 90%; animation-duration: 1.40s; animation-delay: 0.00s; }
+.volume-viz span:nth-child(7)  { height: 90%; animation-duration: 1.40s; }
 .volume-viz span:nth-child(8)  { height: 60%; animation-duration: 0.85s; animation-delay: 0.20s; }
 .volume-viz span:nth-child(9)  { height: 40%; animation-duration: 1.10s; animation-delay: 0.10s; }
 .volume-viz span:nth-child(10) { height: 25%; animation-duration: 0.95s; animation-delay: 0.05s; }
 
-.volume-viz.paused span { animation-play-state: paused; opacity: 0.2; }
+.volume-viz.paused span { animation-play-state: paused; opacity: 0.15; }
 
 @keyframes vizBar {
     from { opacity: 0.25; transform: scaleY(0.25); }
     to   { opacity: 0.7;  transform: scaleY(1); }
 }
 
-/* Volume slider */
 .volume-slider {
     -webkit-appearance: none;
     appearance: none;
-    width: 65px;
+    width: 60px;
     height: 2px;
     background: rgba(255, 255, 255, 0.18);
     outline: none;
@@ -464,13 +504,12 @@ body {
     border-radius: 50%;
 }
 
-/* Track title marquee */
 .player-track {
     overflow: hidden;
     white-space: nowrap;
     flex: 1;
-    font-size: 0.72rem;
-    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
 }
 
 #track-title {
@@ -483,71 +522,6 @@ body {
     100% { transform: translateX(-100%); }
 }
 
-/* ── GALLERY ─────────────────────────────────────── */
-.gallery-container {
-    height: 78px;
-    flex-shrink: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 8px;
-}
-
-.gallery {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    justify-content: center;
-    scrollbar-width: none;
-}
-
-.gallery::-webkit-scrollbar { display: none; }
-
-.gallery-item {
-    flex-shrink: 0;
-    width: 52px;
-    height: 52px;
-    overflow: hidden;
-    cursor: pointer;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    transition: all 0.2s ease;
-}
-
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-#upload-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px dashed rgba(255, 255, 255, 0.22);
-}
-
-#upload-image img {
-    width: 38%;
-    height: 38%;
-    object-fit: contain;
-    filter: invert(1) brightness(1.2);
-    opacity: 0.6;
-}
-
-.gallery-item:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.4);
-}
-
-.gallery-item.active {
-    border-color: rgba(255, 255, 255, 0.75);
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-}
-
-/* ── AUTH MODAL ──────────────────────────────────── */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -578,6 +552,7 @@ body {
 
 .auth-card h2 {
     font-size: 1.5rem;
+    font-weight: 400;
     margin-bottom: 1.5rem;
     letter-spacing: 4px;
     color: rgba(255, 255, 255, 0.85);
@@ -590,9 +565,10 @@ body {
     padding: 11px 13px;
     margin-bottom: 0.9rem;
     color: white;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     font-family: inherit;
     outline: none;
+    border-radius: 2px;
 }
 
 .auth-card input::placeholder { color: rgba(255, 255, 255, 0.35); }
@@ -607,10 +583,11 @@ body {
 .auth-controls button {
     width: 100%;
     padding: 11px;
-    font-size: 0.75rem;
-    letter-spacing: 2px;
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     transition: background 0.2s, color 0.2s;
+    border-radius: 2px;
 }
 
 #login-btn {
@@ -626,10 +603,10 @@ body {
 }
 
 #login-btn:hover    { background: rgba(255, 255, 255, 0.2); }
-#register-btn:hover { background: rgba(255, 255, 255, 0.06); color: rgba(255,255,255,0.8); }
+#register-btn:hover { background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.85); }
 
 #auth-message {
     min-height: 18px;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     margin-bottom: 0.8rem;
 }
