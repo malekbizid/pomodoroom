@@ -156,9 +156,14 @@ app.delete('/api/todos/:id', (req, res) => {
 });
 
 // --- WEBSOCKETS (CHAT) ---
+let connectedUsers = 0;
+
 io.on('connection', (socket) => {
     const req = socket.request;
     const username = req.session.username ? req.session.username : 'Anonyme';
+
+    connectedUsers++;
+    io.emit('user count', connectedUsers);
 
     console.log(`🎧 ${username} a rejoint la chill room`);
 
@@ -174,11 +179,13 @@ io.on('connection', (socket) => {
         db.query('INSERT INTO messages (username, text) VALUES (?, ?)', [username, msg], (err) => {
             if (err) console.error('Erreur lors de la sauvegarde du message :', err);
         });
-        
+
         io.emit('chat message', { user: username, text: msg });
     });
 
     socket.on('disconnect', () => {
+        connectedUsers--;
+        io.emit('user count', connectedUsers);
         console.log(`👋 ${username} a quitté la room`);
     });
 });

@@ -3,7 +3,6 @@ let timeLeft = 25 * 60;
 let pauseLeft = 5 * 60;
 let timerId = null;
 let isWorkSession = true;
-const timeDisplay = document.getElementById('time-display');
 
 const workDisplay = document.getElementById('work-time');
 const pauseDisplay = document.getElementById('pause-time');
@@ -14,15 +13,14 @@ const resetBtn = document.getElementById('reset-btn');
 const timerCard = document.getElementById('timer-card');
 const timerToggleBtn = document.getElementById('timer-toggle-btn');
 
-// -- Authentification
+// -- Fullscreen
 const btn = document.getElementById('fullscreen-btn');
 const expandIcon = document.getElementById('expand-icon');
 const shrinkIcon = document.getElementById('shrink-icon');
 
 function toggleFullScreen() {
-    console.log('Toggling fullscreen mode');
     if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen()
+        document.documentElement.requestFullscreen();
     } else {
         document.exitFullscreen();
     }
@@ -38,14 +36,11 @@ function updateIconState() {
     }
 }
 
-
 btn.addEventListener('click', toggleFullScreen);
 document.addEventListener('fullscreenchange', updateIconState);
 
 document.addEventListener('keydown', (e) => {
-    console.log(`Key pressed: ${e.key}`);
     if (e.key === 'F11') {
-        console.log('F11 pressed, toggling fullscreen');
         e.preventDefault();
         toggleFullScreen();
     }
@@ -80,7 +75,7 @@ const fullscreenBtn = document.getElementById('fullscreen-btn');
 
 // -- Galerie
 const galleryItems = document.querySelectorAll('.gallery-item');
-const body = document.body;
+const scene = document.getElementById('scene');
 const uploadImage = document.getElementById('upload-image');
 const backgroundFileInput = document.getElementById('backgroundFileInput');
 
@@ -166,11 +161,17 @@ logoutBtn.addEventListener('click', async () => {
     try {
         const response = await fetch('/api/logout', { method: 'POST' });
         if (response.ok) {
-            window.location.reload(); 
+            window.location.reload();
         }
     } catch (err) {
-        console.error("Erreur de déconnexion", err);
+        console.error("Logout error", err);
     }
+});
+
+// -- Listening now counter
+socket.on('user count', (count) => {
+    const el = document.getElementById('listening-now');
+    if (el) el.innerHTML = `listening now ${count} <span class="dot">•</span>`;
 });
 
 
@@ -421,7 +422,8 @@ function resetTimer() {
 }
 
 timerToggleBtn.addEventListener('click', () => {
-    timerCard.style.display = timerCard.style.display === 'none' ? 'block' : 'none';
+    timerCard.style.display = timerCard.style.display === 'none' ? 'flex' : 'none';
+    timerCard.style.flexDirection = 'column';
 });
 
 startBtn.addEventListener('click', startTimer);
@@ -442,8 +444,8 @@ galleryItems.forEach(item => {
     if (item !== uploadImage) {
         item.addEventListener('click', () => {
             const imageUrl = item.getAttribute('data-image');
-            body.style.backgroundImage = `url('${imageUrl}')`;
-            
+            scene.style.backgroundImage = `url('${imageUrl}')`;
+
             galleryItems.forEach(gItem => gItem.classList.remove('active'));
             item.classList.add('active');
         });
@@ -461,7 +463,7 @@ if(uploadImage && backgroundFileInput) {
         if (file) {
             const reader = new FileReader();
             reader.onload = (event) => {
-                body.style.backgroundImage = `url('${event.target.result}')`;
+                scene.style.backgroundImage = `url('${event.target.result}')`;
                 galleryItems.forEach(gItem => gItem.classList.remove('active'));
                 uploadImage.classList.add('active');
             };
@@ -473,23 +475,35 @@ if(uploadImage && backgroundFileInput) {
 // Player
 const audio = document.getElementById('audio-element');
 const playPauseBtn = document.getElementById('play-pause-btn');
+const volumeViz = document.getElementById('volume-viz');
+const volumeSlider = document.getElementById('volume-slider');
+
+audio.volume = parseFloat(volumeSlider.value);
+volumeViz.classList.add('paused');
 
 playPauseBtn.addEventListener('click', () => {
     if (audio.paused) {
         audio.play();
         playPauseBtn.textContent = '⏸';
+        volumeViz.classList.remove('paused');
     } else {
         audio.pause();
         playPauseBtn.textContent = '▶';
+        volumeViz.classList.add('paused');
     }
 });
 
-// prev/next can be wired to a playlist array later
+volumeSlider.addEventListener('input', () => {
+    audio.volume = parseFloat(volumeSlider.value);
+});
+
 document.getElementById('prev-btn').addEventListener('click', () => {
     audio.currentTime = 0;
 });
+
 document.getElementById('next-btn').addEventListener('click', () => {
     audio.currentTime = 0;
     audio.play();
     playPauseBtn.textContent = '⏸';
+    volumeViz.classList.remove('paused');
 });

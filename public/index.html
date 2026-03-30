@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pomodoro Chill Room</title>
+    <title>Pomodoroom</title>
     <link rel="icon" type="image/jpg" href="images/lofi.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,55 +11,87 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<button id="logout-btn" class="logout-btn">Se déconnecter</button>    
-    <main class="chill-background">  
-        <div id="control-tab">
+
+    <!-- ── TOP BAR ────────────────────────────────── -->
+    <div class="top-bar">
+        <div class="top-left">
+            <span id="listening-now">listening now 0 <span class="dot">•</span></span>
+        </div>
+        <div class="top-right">
             <div class="control-btn" id="fullscreen-btn">
                 <img src="./icons/icon-expand.png" alt="expand" id="expand-icon">
                 <img src="./icons/icon-compress.png" alt="compress" id="shrink-icon">
             </div>
-            <div class="control-btn">
-                <img src="./icons/icon-info.png" alt="info">
-            </div>
-            <div class="control-btn">
-                <img src="./icons/icon-upload.png" alt="upload">
-            </div>
             <div class="control-btn" id="timer-toggle-btn">
                 <img src="./icons/icon-timer.png" alt="timer">
             </div>
+            <button class="logout-btn" id="logout-btn">logout</button>
         </div>
+    </div>
 
-        <div class="room-title">Pomodoro Chill Room</div>
+    <!-- ── SCENE (background image container) ─────── -->
+    <div class="scene" id="scene">
+
+        <!-- Timer overlay (top-right of scene) -->
         <div class="timer-card" id="timer-card" style="display:none;">
             <p id="mode-label">WORK</p>
             <div class="timer-display-row">
-                    <span id="work-time">25:00</span>
-                    <span id="pause-time">+5:00</span>
-                </div>
+                <span id="work-time">25:00</span>
+                <span id="pause-time">+5:00</span>
+            </div>
             <div class="controls">
-                <button id="start-btn">Start</button>
-                <button id="pause-btn">Pause</button>
-                <button id="reset-btn" >Reset</button>
+                <button id="start-btn">start</button>
+                <button id="pause-btn">pause</button>
+                <button id="reset-btn">reset</button>
             </div>
         </div>
-        <div class="player-bar">
-    <div class="player-controls">
+
+        <!-- To-Do overlay (top-left of scene) -->
+        <div class="todo-container">
+            <div class="panel-header">to-do</div>
+            <ul id="todo-list"></ul>
+            <form id="todo-form">
+                <input type="text" id="todo-input" autocomplete="off" placeholder="new task..." required />
+                <button type="submit">+</button>
+            </form>
+        </div>
+
+        <!-- Chat overlay (bottom-right of scene) -->
+        <div class="chat-container">
+            <div class="panel-header">chat</div>
+            <div id="chat-messages"></div>
+            <form id="chat-form">
+                <input type="text" id="chat-input" autocomplete="off" placeholder="message..." />
+                <button type="submit">→</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- ── PLAYER BAR ──────────────────────────────── -->
+    <div class="player-bar">
+        <div class="player-controls">
             <button class="player-btn" id="prev-btn">⏮</button>
             <button class="player-btn" id="play-pause-btn">▶</button>
             <button class="player-btn" id="next-btn">⏭</button>
         </div>
+        <div class="volume-viz" id="volume-viz">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
         <div class="player-track">
-            <span id="track-title">lofi hip hop radio - beats to study/chill/relax</span>
+            <span id="track-title">lofi hip hop radio — beats to study / chill / relax</span>
         </div>
         <audio id="audio-element">
             <source src="/audio/watermello-lofi-girl-chill.mp3" type="audio/mpeg">
         </audio>
     </div>
-    
 
+    <!-- ── GALLERY ─────────────────────────────────── -->
     <div class="gallery-container">
         <div class="gallery">
-            <div class="gallery-item" data-image="./images/lofi-sunset.jpg">
+            <div class="gallery-item active" data-image="./images/lofi-sunset.jpg">
                 <img src="./images/lofi-sunset.jpg" alt="Lofi Sunset">
             </div>
             <div class="gallery-item" data-image="./images/lofi-girl.jpg">
@@ -69,47 +101,24 @@
                 <img src="./images/lofi-room.jpg" alt="Lofi Room">
             </div>
             <div class="gallery-item" id="upload-image">
-                <img src="./icons/upload-icon-2.png" alt="upload image">
+                <img src="./icons/upload-icon-2.png" alt="upload">
             </div>
         </div>
     </div>
 
-    <input type="file" id="backgroundFileInput" accept="image/*" style="display: none;">
+    <input type="file" id="backgroundFileInput" accept="image/*" style="display:none;">
 
-<div class="todo-container">
-        <div class="todo-header">To-Do List</div>
-        <ul id="todo-list">
-            </ul>
-        <form id="todo-form">
-            <input type="text" id="todo-input" autocomplete="off" placeholder="Nouvelle tâche..." required />
-            <button type="submit">+</button>
-        </form>
-    </div>
-    
-    <div class="chat-container">
-        <div class="chat-header">Lofi Chat</div>
-        <div id="chat-messages">
-            </div>
-        <form id="chat-form">
-            <input type="text" id="chat-input" autocomplete="off" placeholder="Écris un message..." />
-            <button type="submit">Envoyer</button>
-        </form>
-    </div>
-
-    </main>
-    
+    <!-- ── AUTH MODAL ──────────────────────────────── -->
     <div id="auth-modal" class="modal-overlay">
         <div class="auth-card">
-            <h2>Authentification</h2>
+            <h2>pomodoroom</h2>
             <p id="auth-message"></p>
-            
             <form id="auth-form">
-                <input type="text" id="username" placeholder="Nom d'utilisateur" autocomplete="off" required>
-                <input type="password" id="password" placeholder="Mot de passe" required>
-                
+                <input type="text" id="username" placeholder="username" autocomplete="off" required>
+                <input type="password" id="password" placeholder="password" required>
                 <div class="auth-controls">
-                    <button type="submit" id="login-btn">Se connecter</button>
-                    <button type="button" id="register-btn">S'inscrire</button>
+                    <button type="submit" id="login-btn">login</button>
+                    <button type="button" id="register-btn">register</button>
                 </div>
             </form>
         </div>

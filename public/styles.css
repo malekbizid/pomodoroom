@@ -1,208 +1,481 @@
-.pixel-text {
-  font-family: "Pixelify Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400; 
-  font-style: normal;
-}
-
+/* ── RESET ───────────────────────────────────────── */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Pixelify Sans', monospace;
 }
 
+button {
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+    background: none;
+    color: inherit;
+}
 
-
-
+/* ── BODY (black shell) ──────────────────────────── */
 body {
     height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background: #0a0a0a;
+    color: #fff;
     display: flex;
     flex-direction: column;
+}
+
+/* ── TOP BAR ─────────────────────────────────────── */
+.top-bar {
+    height: 44px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+}
+
+.top-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.top-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#listening-now {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.5px;
+}
+
+.dot {
+    color: rgba(120, 220, 120, 0.8);
+    animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+}
+
+/* ── CONTROL BUTTONS ─────────────────────────────── */
+.control-btn {
+    display: flex;
     justify-content: center;
     align-items: center;
-    color: #ffffff;
-    background-image: url('./images/lofi-sunset.jpg'); 
-    background-size: cover;     
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    padding-bottom: 120px; 
+    padding: 4px;
+    cursor: pointer;
+    opacity: 0.55;
+    transition: opacity 0.2s;
+}
+
+.control-btn img {
+    width: 20px;
+    height: 20px;
+    filter: invert(1) brightness(1.5);
+    display: block;
+}
+
+#shrink-icon { display: none; }
+
+.control-btn:hover  { opacity: 1; }
+.control-btn:active { opacity: 0.4; }
+
+/* ── LOGOUT BUTTON ───────────────────────────────── */
+.logout-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.45);
+    padding: 4px 10px;
+    font-size: 0.68rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.2s, border-color 0.2s;
+    margin-left: 6px;
+}
+
+.logout-btn:hover {
+    color: rgba(255, 255, 255, 0.85);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ── SCENE (background image frame) ─────────────── */
+.scene {
+    flex: 1;
     position: relative;
+    background-image: url('./images/lofi-sunset.jpg');
+    background-size: cover;
+    background-position: center;
+    margin: 0 8px;
+    overflow: hidden;
 }
 
-main.chill-background {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem; 
-}
-
-.room-title {
-    font-size: 3rem; 
-    margin-bottom: 1rem; 
-    text-shadow: 0 3px 11px rgba(0, 0, 0, 0.3);
-    letter-spacing: 2px; 
-}
+/* ── TIMER OVERLAY ───────────────────────────────── */
 .timer-card {
     position: absolute;
-    top: 60px;
-    right: 10px;
+    top: 12px;
+    right: 12px;
     text-align: right;
-    padding: 4px 10px;
+    padding: 4px 8px;
     background: transparent;
+    z-index: 10;
 }
 
 #mode-label {
-    font-size: 0.6rem;
-    color: rgba(255,255,255,0.55);
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.45);
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 2px;
-    font-weight: 400;
 }
 
 .timer-display-row {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 #work-time {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: white;
     letter-spacing: 2px;
     line-height: 1.2;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
 }
 
 #pause-time {
-    font-size: 0.85rem;
-    font-weight: 400;
-    color: rgba(255,255,255,0.6);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
     letter-spacing: 1px;
     line-height: 1.2;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
-
 
 .controls {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
 .controls button {
     background: transparent;
     border: none;
-    color: rgba(255,255,255,0.75);
+    color: rgba(255, 255, 255, 0.6);
     padding: 0;
-    border-radius: 0;
-    font-family: inherit;
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     letter-spacing: 1px;
-    text-transform: capitalize;
-    cursor: pointer;
+    text-transform: lowercase;
     transition: color 0.2s;
-    box-shadow: none;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
-.controls button:hover {
-    background: rgba(255,255,255,0.22);
-    transform: none;
-    box-shadow: none;
-}
+.controls button:hover { color: white; }
 
-.controls {
-    display: flex;
-    justify-content: center;
-    /* 1.5rem * 0.75 */
-    gap: 1.125rem; 
-}
-
-button {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    color: #ffffff;
-    padding: 10.5px 24px; 
-    border-radius: 0px; 
-    font-size: 1.1rem; 
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* ── PANEL SHARED STYLES ─────────────────────────── */
+.panel-header {
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 2.5px;
     text-transform: uppercase;
-    letter-spacing: 1.5px; 
-    box-shadow: 0 3px 11px rgba(0, 0, 0, 0.2),
-                inset 0 1px 1px rgba(255, 255, 255, 0.2);
-    position: relative;
+}
+
+/* ── TODO OVERLAY ────────────────────────────────── */
+.todo-container {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 210px;
+    max-height: 230px;
+    background: rgba(8, 8, 12, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
+    z-index: 10;
 }
 
-button:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 6px 19px rgba(255, 255, 255, 0.15),
-                inset 0 1px 1px rgba(255, 255, 255, 0.3);
-    transform: translateY(-1.5px);
+#todo-list {
+    list-style: none;
+    padding: 8px;
+    margin: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
-button:active {
-    transform: translateY(0);
-    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.2),
-                inset 0 1px 1px rgba(255, 255, 255, 0.15);
+#todo-list::-webkit-scrollbar       { width: 3px; }
+#todo-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); }
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 7px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: grab;
+    transition: background 0.2s;
 }
 
+.todo-item:hover { background: rgba(255, 255, 255, 0.06); }
+
+.todo-item.completed span {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.28);
+}
+
+.todo-item span {
+    cursor: pointer;
+    flex-grow: 1;
+    word-break: break-word;
+}
+
+.todo-item.dragging {
+    opacity: 0.35;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px dashed rgba(255, 255, 255, 0.25);
+}
+
+.delete-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 100, 100, 0.5);
+    font-size: 0.85rem;
+    padding: 0 4px;
+    transition: color 0.2s;
+    line-height: 1;
+}
+
+.delete-btn:hover { color: rgba(255, 100, 100, 0.9); }
+
+#todo-form {
+    display: flex;
+    padding: 6px 8px;
+    background: rgba(0, 0, 0, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    gap: 6px;
+}
+
+#todo-input {
+    flex-grow: 1;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 5px 7px;
+    color: white;
+    font-size: 0.72rem;
+    font-family: inherit;
+    outline: none;
+}
+
+#todo-input::placeholder { color: rgba(255, 255, 255, 0.25); }
+
+#todo-form button {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+#todo-form button:hover { background: rgba(255, 255, 255, 0.14); }
+
+/* ── CHAT OVERLAY ────────────────────────────────── */
+.chat-container {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 230px;
+    height: 270px;
+    background: rgba(8, 8, 12, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 10;
+}
+
+#chat-messages {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+#chat-messages::-webkit-scrollbar       { width: 3px; }
+#chat-messages::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); }
+
+.message {
+    background: rgba(255, 255, 255, 0.06);
+    padding: 5px 8px;
+    max-width: 92%;
+    width: fit-content;
+    font-size: 0.72rem;
+    line-height: 1.45;
+    word-wrap: break-word;
+}
+
+#chat-form {
+    display: flex;
+    padding: 6px 8px;
+    background: rgba(0, 0, 0, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    gap: 6px;
+}
+
+#chat-input {
+    flex-grow: 1;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 5px 7px;
+    color: white;
+    font-size: 0.72rem;
+    font-family: inherit;
+    outline: none;
+}
+
+#chat-input::placeholder { color: rgba(255, 255, 255, 0.25); }
+
+#chat-form button {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 5px 10px;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+#chat-form button:hover { background: rgba(255, 255, 255, 0.14); }
+
+/* ── PLAYER BAR ──────────────────────────────────── */
 .player-bar {
-    position: fixed;
-    bottom: 120px;
-    left: 0;
-    right: 0;
-    z-index: 101;
+    height: 44px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 6px 20px;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(6px);
-    font-family: 'Pixelify Sans', monospace;
-    font-size: 0.8rem;
-    color: white;
+    gap: 10px;
+    padding: 0 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .player-controls {
     display: flex;
-    gap: 4px;
+    gap: 2px;
     align-items: center;
     flex-shrink: 0;
 }
 
 .player-btn {
-    all: unset;
+    background: none;
+    border: none;
     cursor: pointer;
-    font-size: 0.85rem;
-    padding: 2px 5px;
-    color: rgba(255,255,255,0.85);
+    font-size: 0.78rem;
+    padding: 3px 5px;
+    color: rgba(255, 255, 255, 0.6);
     transition: color 0.15s;
 }
 
-.player-btn:hover {
-    color: white;
+.player-btn:hover { color: white; }
+
+/* Volume visualization bars */
+.volume-viz {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 16px;
+    flex-shrink: 0;
 }
 
+.volume-viz span {
+    display: block;
+    width: 3px;
+    background: rgba(255, 255, 255, 0.35);
+    transform-origin: bottom;
+    animation: vizBar 1.2s ease-in-out infinite alternate;
+}
+
+.volume-viz span:nth-child(1)  { height: 35%; animation-duration: 0.80s; animation-delay: 0.00s; }
+.volume-viz span:nth-child(2)  { height: 65%; animation-duration: 1.10s; animation-delay: 0.10s; }
+.volume-viz span:nth-child(3)  { height: 100%; animation-duration: 0.90s; animation-delay: 0.20s; }
+.volume-viz span:nth-child(4)  { height: 55%; animation-duration: 1.30s; animation-delay: 0.05s; }
+.volume-viz span:nth-child(5)  { height: 80%; animation-duration: 0.70s; animation-delay: 0.15s; }
+.volume-viz span:nth-child(6)  { height: 45%; animation-duration: 1.00s; animation-delay: 0.25s; }
+.volume-viz span:nth-child(7)  { height: 90%; animation-duration: 1.40s; animation-delay: 0.00s; }
+.volume-viz span:nth-child(8)  { height: 60%; animation-duration: 0.85s; animation-delay: 0.20s; }
+.volume-viz span:nth-child(9)  { height: 40%; animation-duration: 1.10s; animation-delay: 0.10s; }
+.volume-viz span:nth-child(10) { height: 25%; animation-duration: 0.95s; animation-delay: 0.05s; }
+
+.volume-viz.paused span { animation-play-state: paused; opacity: 0.2; }
+
+@keyframes vizBar {
+    from { opacity: 0.25; transform: scaleY(0.25); }
+    to   { opacity: 0.7;  transform: scaleY(1); }
+}
+
+/* Volume slider */
+.volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 65px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.18);
+    outline: none;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 9px;
+    height: 9px;
+    background: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 9px;
+    height: 9px;
+    background: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+}
+
+/* Track title marquee */
 .player-track {
     overflow: hidden;
     white-space: nowrap;
     flex: 1;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.45);
 }
 
 #track-title {
     display: inline-block;
-    animation: marquee 18s linear infinite;
+    animation: marquee 20s linear infinite;
 }
 
 @keyframes marquee {
@@ -210,60 +483,35 @@ button:active {
     100% { transform: translateX(-100%); }
 }
 
+/* ── GALLERY ─────────────────────────────────────── */
 .gallery-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 120px; 
-    background: transparent;
+    height: 78px;
+    flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    padding: 0 8px;
 }
 
 .gallery {
     display: flex;
-    gap: 12px; 
+    gap: 8px;
     overflow-x: auto;
-    overflow-y: hidden;
-    padding: 9px 15px; 
     scroll-behavior: smooth;
-    width: 100%;
     justify-content: center;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    scrollbar-width: none;
 }
 
-.gallery::-webkit-scrollbar {
-    height: 4.5px; 
-}
-
-.gallery::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.gallery::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 0px;
-}
-
-.gallery::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5);
-}
+.gallery::-webkit-scrollbar { display: none; }
 
 .gallery-item {
     flex-shrink: 0;
-    width: 67.5px; 
-    height: 67.5px; 
-    border-radius: 0px; 
+    width: 52px;
+    height: 52px;
     overflow: hidden;
     cursor: pointer;
-    border: 1.5px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 3px 11px rgba(0, 0, 0, 0.3);
-    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: all 0.2s ease;
 }
 
 .gallery-item img {
@@ -277,59 +525,42 @@ button:active {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(255, 255, 255, 0.268);
-    border: 1.5px dashed rgba(255, 255, 255, 0.73);
-    border-width: 3px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px dashed rgba(255, 255, 255, 0.22);
 }
 
 #upload-image img {
-    width: 50%;
-    height: 50%;
+    width: 38%;
+    height: 38%;
     object-fit: contain;
-    filter: invert(1) brightness(1.5);
+    filter: invert(1) brightness(1.2);
+    opacity: 0.6;
 }
 
 .gallery-item:hover {
-    transform: scale(1.1) translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 6px 19px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 .gallery-item.active {
-    border-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4),
-                inset 0 0 7.5px rgba(255, 255, 255, 0.2);
-    transform: scale(1.15);
+    border-color: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
-
-
-.chat-container {
-    position: fixed;
-
-    bottom: 20px; 
-    left: 20px;
-    
-    width: 300px;
-    height: 320px;
-}
-
-
-/* --- MODAL D'AUTHENTIFICATION (Pop-up) --- */
+/* ── AUTH MODAL ──────────────────────────────────── */
 .modal-overlay {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.7); /* Fond noir semi-transparent */
-    backdrop-filter: blur(8px); /* Floute la room derrière le pop-up */
-    -webkit-backdrop-filter: blur(8px);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2000; /* Toujours au premier plan */
-    transition: opacity 0.4s ease, visibility 0.4s;
+    z-index: 2000;
+    transition: opacity 0.3s ease, visibility 0.3s;
 }
 
-/* Classe pour masquer le pop-up */
 .modal-overlay.hidden {
     opacity: 0;
     visibility: hidden;
@@ -337,328 +568,68 @@ button:active {
 }
 
 .auth-card {
-    background: rgba(30, 30, 50, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    padding: 2.5rem 3rem; 
-    border-radius: 0px; 
+    background: rgba(12, 12, 18, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 2.5rem 3rem;
     text-align: center;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     width: 100%;
-    max-width: 400px;
+    max-width: 340px;
 }
 
-.auth-card h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+.auth-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 4px;
+    color: rgba(255, 255, 255, 0.85);
+}
 
 .auth-card input {
     width: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1.5px solid rgba(255, 255, 255, 0.2);
-    border-radius: 0px;
-    padding: 14px 18px; 
-    margin-bottom: 1.2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 11px 13px;
+    margin-bottom: 0.9rem;
     color: white;
-    font-size: 1rem;
+    font-size: 0.82rem;
+    font-family: inherit;
     outline: none;
 }
 
-.auth-card input::placeholder { color: rgba(255, 255, 255, 0.75); }
+.auth-card input::placeholder { color: rgba(255, 255, 255, 0.35); }
 
 .auth-controls {
     display: flex;
-    flex-direction: column; /* Boutons superposés */
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.7rem;
     margin-top: 1rem;
 }
 
-.auth-controls button { width: 100%; padding: 14px; }
-
-#login-btn { background: rgba(255, 255, 255, 0.25); }
-#register-btn { background: transparent; border: 1px solid rgba(255, 255, 255, 0.3); }
-
-#auth-message { min-height: 20px; font-weight: bold; margin-bottom: 1rem; }
-/* --- STYLE DU CHAT --- */
-.chat-container {
-    position: fixed;
-    bottom: 30px; /* Ajusté pour être juste au-dessus de la galerie d'images */
-    left: 20px;
-    width: 300px;
-    height: 320px;
-    background: rgba(30, 30, 50, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-radius: 0px;
-    
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; 
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    z-index: 1000; 
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-}
-
-.chat-header {
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    text-align: center;
-    font-weight: bold;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.8);
-    letter-spacing: 1px;
-}
-
-#control-tab{
-    position:absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0);
-    padding: 6px 10px;
+.auth-controls button {
+    width: 100%;
+    padding: 11px;
     font-size: 0.75rem;
-    display: flex;
-}
-.control-btn {
-    justify-content: center;
-    gap: 0px;
-    padding: 0px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: background 0.2s, color 0.2s;
 }
 
-.control-btn img {
-    background-color: #ffffff00;
-    font-size: 0.75rem;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    filter: invert(1) brightness(1.5);
-    transition: background 0.3s ease, transform 0.1s ease;
-}
-
-#shrink-icon {
-    display: none;
-}
-
-.control-btn:hover {
-    background: #ffffff33;
-}
-
-.control-btn:active {
-    transform: scale(0.95);
-}
-
-#chat-messages {
-    flex-grow: 1;
-    padding: 15px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-#chat-messages::-webkit-scrollbar {
-    width: 5px;
-}
-#chat-messages::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
-}
-#chat-messages::-webkit-scrollbar { width: 5px; }
-#chat-messages::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 5px; }
-
-.message {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 8px 12px;
-    border-radius: 12px;
-    border-top-left-radius: 2px; 
-    max-width: 90%;
-    width: fit-content;
-    font-size: 0.85rem;
-    line-height: 1.4;
-    word-wrap: break-word; 
-}
-
-
-#chat-form {
-    display: flex;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    gap: 8px;
-}
-
-#chat-input {
-    flex-grow: 1;
-    background: rgba(255, 255, 255, 0.05);
+#login-btn {
+    background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    padding: 8px;
     color: white;
-    font-size: 0.85rem;
-    outline: none;
 }
 
-#chat-input::placeholder { color: rgba(255, 255, 255, 0.4); }
-
-#chat-form button {
-    padding: 8px 12px;
-    font-size: 0.8rem;
-    border-radius: 0px;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-#chat-form button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-1px);
-}
-
-
-/* --- BOUTON DE DÉCONNEXION --- */
-.logout-btn {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 0.85rem;
-    padding: 8px 16px;
-    z-index: 1000;
-    background: rgba(255, 107, 107, 0.2); /* Légèrement rouge */
-    border-color: rgba(255, 107, 107, 0.4);
-}
-
-.logout-btn:hover {
-    background: rgba(255, 107, 107, 0.4);
-    border-color: rgba(255, 107, 107, 0.6);
-}
-
-/* --- STYLE DE LA TO-DO LIST --- */
-.todo-container {
-    position: fixed;
-    bottom: 370px; /* Aligné juste au-dessus du chat */
-    left: 20px;
-    width: 300px;
-    max-height: 250px; /* Ne prend pas tout l'écran */
-    background: rgba(30, 30, 50, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-}
-
-.todo-header {
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    text-align: center;
-    font-weight: bold;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.8);
-    letter-spacing: 1px;
-}
-
-#todo-list {
-    list-style: none;
-    padding: 10px;
-    margin: 0;
-    overflow-y: auto;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-#todo-list::-webkit-scrollbar { width: 5px; }
-#todo-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 5px; }
-
-.todo-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    transition: background 0.2s;
-}
-
-.todo-item:hover { background: rgba(255, 255, 255, 0.15); }
-
-/* Style quand la tâche est terminée */
-.todo-item.completed span {
-    text-decoration: line-through;
-    color: rgba(255, 255, 255, 0.4);
-}
-
-.todo-item span {
-    cursor: pointer; /* Montre qu'on peut cliquer pour barrer */
-    flex-grow: 1;
-    word-break: break-all;
-}
-
-.delete-btn {
+#register-btn {
     background: transparent;
-    border: none;
-    color: #ff6b6b;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 0 5px;
-    box-shadow: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
 }
 
-.delete-btn:hover {
-    transform: scale(1.2);
-    box-shadow: none;
-    background: transparent;
-}
+#login-btn:hover    { background: rgba(255, 255, 255, 0.2); }
+#register-btn:hover { background: rgba(255, 255, 255, 0.06); color: rgba(255,255,255,0.8); }
 
-#todo-form {
-    display: flex;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    gap: 8px;
-}
-
-#todo-input {
-    flex-grow: 1;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    padding: 8px;
-    color: white;
-    font-size: 0.85rem;
-    outline: none;
-}
-
-#todo-input::placeholder { color: rgba(255, 255, 255, 0.4); }
-
-#todo-form button {
-    padding: 8px 14px;
-    font-size: 1.1rem;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-#todo-form button:hover { background: rgba(255, 255, 255, 0.2); }
-/* --- DRAG AND DROP POUR LA TO-DO LIST --- */
-.todo-item {
-    cursor: grab; /* Ajoute l'icône de la petite main */
-}
-
-.todo-item:active {
-    cursor: grabbing; /* Main fermée quand on clique */
-}
-
-.todo-item.dragging {
-    opacity: 0.5; /* Rend la tâche semi-transparente pendant qu'on la déplace */
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px dashed rgba(255, 255, 255, 0.6);
+#auth-message {
+    min-height: 18px;
+    font-size: 0.72rem;
+    margin-bottom: 0.8rem;
 }
