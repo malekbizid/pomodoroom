@@ -98,16 +98,4 @@ pomodoroom/
 │   ├── icons/           # Icônes UI
 │   └── audio/           # Musique lofi
 └── server.js
-```
 
-## ⚠️ Notes de sécurité
-
-> Ce projet est un prototype — plusieurs points sont à améliorer avant une mise en production :
-
-- Les mots de passe sont stockés **en clair** dans la BDD → utiliser `bcrypt`
-- La clé de session `secret-lofi-key-super-secure` doit être remplacée par une variable d'environnement
-- Utiliser `dotenv` pour externaliser les credentials MySQL
-
-## 📄 Licence
-
-MIT
