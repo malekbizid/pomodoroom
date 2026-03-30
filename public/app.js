@@ -373,6 +373,17 @@ backgroundFileInput.addEventListener('change', (e) => {
 });
 
 
+// --- COLLAPSE PANELS ---
+
+document.getElementById('todo-header').addEventListener('click', () => {
+    document.querySelector('.todo-container').classList.toggle('collapsed');
+});
+
+document.getElementById('chat-header').addEventListener('click', () => {
+    document.querySelector('.chat-container').classList.toggle('collapsed');
+});
+
+
 // --- PLAYER ---
 
 audio.volume = parseFloat(volumeSlider.value);

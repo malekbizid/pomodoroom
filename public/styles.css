@@ -175,7 +175,22 @@ body {
     color: rgba(255, 255, 255, 0.4);
     letter-spacing: 2px;
     text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
 }
+
+.panel-header:hover { color: rgba(255, 255, 255, 0.7); }
+
+.chevron {
+    font-size: 0.55rem;
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.collapsed .chevron { transform: rotate(180deg); }
 
 .todo-container {
     position: absolute;
@@ -278,10 +293,9 @@ body {
 
 .chat-container {
     position: absolute;
-    bottom: 90px;
+    bottom: 82px;
     right: 12px;
     width: 230px;
-    height: 260px;
     background: rgba(8, 8, 12, 0.65);
     border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(14px);
@@ -292,8 +306,14 @@ body {
     z-index: 10;
 }
 
+.chat-container.collapsed #chat-messages,
+.chat-container.collapsed #chat-form { display: none; }
+
+.todo-container.collapsed #todo-list,
+.todo-container.collapsed #todo-form { display: none; }
+
 #chat-messages {
-    flex: 1;
+    max-height: 240px;
     padding: 10px;
     overflow-y: auto;
     display: flex;
