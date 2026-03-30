@@ -157,15 +157,57 @@ button:active {
                 inset 0 1px 1px rgba(255, 255, 255, 0.15);
 }
 
-.audio-player {
-    margin-top: 0.75rem; 
-    width: 100%;
-    max-width: 400px; 
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 0px; 
-    padding: 0.75rem; 
-    filter: brightness(1.1);
+.player-bar {
+    position: fixed;
+    bottom: 120px;
+    left: 0;
+    right: 0;
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 20px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    font-family: 'Pixelify Sans', monospace;
+    font-size: 0.8rem;
+    color: white;
+}
+
+.player-controls {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.player-btn {
+    all: unset;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 2px 5px;
+    color: rgba(255,255,255,0.85);
+    transition: color 0.15s;
+}
+
+.player-btn:hover {
+    color: white;
+}
+
+.player-track {
+    overflow: hidden;
+    white-space: nowrap;
+    flex: 1;
+}
+
+#track-title {
+    display: inline-block;
+    animation: marquee 18s linear infinite;
+}
+
+@keyframes marquee {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
 }
 
 .gallery-container {
