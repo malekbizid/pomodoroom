@@ -11,7 +11,7 @@ const io = new Server(server);
 
 const PORT = 3000;
 
-// --- CONFIGURATION ---
+//CONFIGURATION 
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 
@@ -25,7 +25,7 @@ io.engine.use(sessionMiddleware);
 
 app.use(express.static(path.join(__dirname, '../public')));
 
-// --- BASE DE DONNÉES MYSQL ---
+// BASE DE DONNÉES MYSQL
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root', 
@@ -35,13 +35,13 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
     if (err) {
-        console.error('❌ Erreur de connexion à MySQL :', err.message);
+        console.error('Erreur de connexion à MySQL :', err.message);
         return;
     }
-    console.log('📦 Connecté à la base de données MySQL');
+    console.log('Connecté à la base de données MySQL');
 });
 
-// --- ROUTES D'AUTHENTIFICATION ---
+//ROUTES D'AUTHENTIFICATION 
 app.post('/api/register', (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) return res.status(400).send('Données manquantes');
@@ -91,7 +91,7 @@ app.post('/api/logout', (req, res) => {
     });
 });
 
-// --- ROUTES TO-DO LIST ---
+// ROUTES TO-DO LIST 
 
 app.get('/api/todos', (req, res) => {
     if (!req.session.username) return res.status(401).send('Non autorisé');
@@ -112,7 +112,6 @@ app.post('/api/todos', (req, res) => {
     });
 });
 
-// CORRECTION ICI : La route spécifique /reorder doit ABSOLUMENT être avant la route joker /:id
 app.put('/api/todos/reorder', (req, res) => {
     if (!req.session.username) return res.status(401).send('Non autorisé');
     
@@ -135,7 +134,6 @@ app.put('/api/todos/reorder', (req, res) => {
     res.send('Ordre mis à jour');
 });
 
-// Route joker (/:id) placée APRES /reorder
 app.put('/api/todos/:id', (req, res) => {
     if (!req.session.username) return res.status(401).send('Non autorisé');
     const { completed } = req.body;
@@ -155,7 +153,7 @@ app.delete('/api/todos/:id', (req, res) => {
     });
 });
 
-// --- WEBSOCKETS (CHAT) ---
+// WEBSOCKETS
 let connectedUsers = 0;
 
 io.on('connection', (socket) => {
@@ -165,7 +163,7 @@ io.on('connection', (socket) => {
     connectedUsers++;
     io.emit('user count', connectedUsers);
 
-    console.log(`🎧 ${username} a rejoint la chill room`);
+    console.log(`${username} a rejoint la chill room`);
 
     db.query('SELECT username, text FROM messages ORDER BY created_at ASC LIMIT 50', (err, results) => {
         if (err) {
@@ -186,11 +184,11 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         connectedUsers--;
         io.emit('user count', connectedUsers);
-        console.log(`👋 ${username} a quitté la room`);
+        console.log(`${username} a quitté la room`);
     });
 });
 
-// --- DÉMARRAGE DU SERVEUR ---
+// DÉMARRAGE DU SERVEUR 
 server.listen(PORT, () => {
-    console.log(`🚀 Serveur Lofi Pomodoro démarré sur http://localhost:${PORT}`);
+    console.log(`Serveur Lofi Pomodoro démarré sur http://localhost:${PORT}`);
 });

@@ -48,7 +48,7 @@ let tasks = [];
 const socket = io({ autoConnect: false });
 
 
-// --- AUTH ---
+//AUTH
 
 fetch('/api/me')
     .then(res => res.json())
@@ -117,7 +117,7 @@ logoutBtn.addEventListener('click', async () => {
 });
 
 
-// --- SOCKET ---
+//SOCKET
 
 socket.on('user count', (count) => {
     document.getElementById('listening-now').innerHTML = `listening now ${count} <span class="dot">•</span>`;
@@ -156,7 +156,7 @@ function appendMessage(user, text) {
 }
 
 
-// --- TO-DO ---
+// TO-DO
 
 async function fetchTasks() {
     const response = await fetch('/api/todos', { cache: 'no-store' });
@@ -251,7 +251,7 @@ async function saveNewOrder() {
 }
 
 
-// --- TIMER ---
+// TIMER 
 
 function formatTime(secs) {
     const m = Math.floor(secs / 60);
@@ -327,7 +327,7 @@ pauseBtn.style.display = 'none';
 updateDisplay();
 
 
-// --- FULLSCREEN ---
+//FULLSCREEN 
 
 document.getElementById('fullscreen-btn').addEventListener('click', () => {
     if (!document.fullscreenElement) {
@@ -350,7 +350,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 
-// --- GALLERY ---
+//GALLERY
 
 function setImageBackground(url) {
     bgVideo.pause();
@@ -395,7 +395,7 @@ backgroundFileInput.addEventListener('change', (e) => {
 });
 
 
-// --- COLLAPSE PANELS ---
+// COLLAPSE PANELS 
 
 document.getElementById('todo-header').addEventListener('click', () => {
     document.querySelector('.todo-container').classList.toggle('collapsed');
@@ -406,7 +406,7 @@ document.getElementById('chat-header').addEventListener('click', () => {
 });
 
 
-// --- PLAYER ---
+// PLAYER 
 
 const playlist = [
     { src: '/audio/watermello-lofi-girl-chill.mp3', title: 'lofi hip hop radio — beats to study / chill / relax' },
@@ -426,7 +426,6 @@ function playTrack(index) {
     document.getElementById('track-title').textContent = track.title;
 }
 
-// Init: load first track (but don't autoplay until logged in)
 audio.src = playlist[0].src;
 audio.volume = parseFloat(volumeSlider.value);
 document.getElementById('track-title').textContent = playlist[0].title;
@@ -437,7 +436,6 @@ function startAudio() {
         playPauseBtn.textContent = '⏸';
         volumeViz.classList.remove('paused');
     }).catch(() => {
-        // Autoplay blocked — play on first user interaction after login
         const startOnInteraction = () => {
             audio.play().then(() => {
                 playPauseBtn.textContent = '⏸';
