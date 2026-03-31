@@ -30,6 +30,8 @@
 
     <div class="scene" id="scene">
 
+        <video id="bg-video" loop muted playsinline></video>
+
         <div class="timer-card" id="timer-card" style="display:none;">
             <p id="mode-label">WORK</p>
             <div class="timer-display-row">
@@ -72,6 +74,33 @@
                 <div class="gallery-item" data-image="./images/lofi-room.jpg">
                     <img src="./images/lofi-room.jpg" alt="Lofi Room">
                 </div>
+                <div class="gallery-item" data-video="./videos/chill-room.mp4">
+                    <video src="./videos/chill-room.mp4" muted preload="metadata"></video>
+                </div>
+                <div class="gallery-item" data-video="./videos/rain-loop.mp4">
+                    <video src="./videos/rain-loop.mp4" muted preload="metadata"></video>
+                </div>
+                <div class="gallery-item" data-video="./videos/lofi1.mp4">
+                    <video src="./videos/lofi1.mp4" muted preload="metadata"></video>
+                </div>
+                <div class="gallery-item" data-video="./videos/lofi2.mp4">
+                    <video src="./videos/lofi2.mp4" muted preload="metadata"></video>
+                </div>
+                <div class="gallery-item" data-video="./videos/lofi3.mp4">
+                    <video src="./videos/lofi3.mp4" muted preload="metadata"></video>
+                </div>
+                <div class="gallery-item" data-video="./videos/lofi4.mp4">
+                    <video src="./videos/lofi4.mp4" muted preload="metadata"></video>
+                </div>
+                <div class="gallery-item" data-video="./videos/lofi5.mp4">
+                    <video src="./videos/lofi5.mp4" muted preload="metadata"></video>
+                </div>
+                <div class="gallery-item" data-video="./videos/lofi6.mp4">
+                    <video src="./videos/lofi6.mp4" muted preload="metadata"></video>
+                </div>
+                <div class="gallery-item" data-video="./videos/lofi7.mp4">
+                    <video src="./videos/lofi7.mp4" muted preload="metadata"></video>
+                </div>
                 <div class="gallery-item" id="upload-image">
                     <img src="./icons/upload-icon-2.png" alt="upload">
                 </div>
@@ -94,9 +123,7 @@
         <div class="player-track">
             <span id="track-title">lofi hip hop radio — beats to study / chill / relax</span>
         </div>
-        <audio id="audio-element">
-            <source src="/audio/watermello-lofi-girl-chill.mp3" type="audio/mpeg">
-        </audio>
+        <audio id="audio-element"></audio>
     </div>
 
     <input type="file" id="backgroundFileInput" accept="image/*" style="display:none;">

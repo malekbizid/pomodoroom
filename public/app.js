@@ -24,6 +24,7 @@ const registerBtn = document.getElementById('register-btn');
 const logoutBtn = document.getElementById('logout-btn');
 
 const scene = document.getElementById('scene');
+const bgVideo = document.getElementById('bg-video');
 const galleryItems = document.querySelectorAll('.gallery-item');
 const uploadImage = document.getElementById('upload-image');
 const backgroundFileInput = document.getElementById('backgroundFileInput');
@@ -349,12 +350,31 @@ document.addEventListener('keydown', (e) => {
 
 // --- GALLERY ---
 
+function setImageBackground(url) {
+    bgVideo.pause();
+    bgVideo.style.display = 'none';
+    scene.style.backgroundImage = `url('${url}')`;
+}
+
+function setVideoBackground(url) {
+    scene.style.backgroundImage = 'none';
+    bgVideo.src = url;
+    bgVideo.style.display = 'block';
+    bgVideo.play();
+}
+
 galleryItems.forEach(item => {
     if (item === uploadImage) return;
     item.addEventListener('click', () => {
-        scene.style.backgroundImage = `url('${item.getAttribute('data-image')}')`;
         galleryItems.forEach(g => g.classList.remove('active'));
         item.classList.add('active');
+        const videoSrc = item.getAttribute('data-video');
+        const imageSrc = item.getAttribute('data-image');
+        if (videoSrc) {
+            setVideoBackground(videoSrc);
+        } else {
+            setImageBackground(imageSrc);
+        }
     });
 });
 
@@ -365,7 +385,7 @@ backgroundFileInput.addEventListener('change', (e) => {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
-        scene.style.backgroundImage = `url('${ev.target.result}')`;
+        setImageBackground(ev.target.result);
         galleryItems.forEach(g => g.classList.remove('active'));
         uploadImage.classList.add('active');
     };
@@ -386,12 +406,38 @@ document.getElementById('chat-header').addEventListener('click', () => {
 
 // --- PLAYER ---
 
+const playlist = [
+    { src: '/audio/watermello-lofi-girl-chill.mp3', title: 'lofi hip hop radio — beats to study / chill / relax' },
+    { src: '/audio/rain-sound.mp3', title: 'rain sounds' },
+    { src: '/audio/bird-sound.mp3', title: 'bird sounds' },
+];
+let currentTrackIndex = 0;
+
+function playTrack(index) {
+    currentTrackIndex = ((index % playlist.length) + playlist.length) % playlist.length;
+    const track = playlist[currentTrackIndex];
+    audio.src = track.src;
+    audio.volume = parseFloat(volumeSlider.value);
+    audio.play();
+    playPauseBtn.textContent = '⏸';
+    volumeViz.classList.remove('paused');
+    document.getElementById('track-title').textContent = track.title;
+}
+
+// Init: set first track without playing
+audio.src = playlist[0].src;
 audio.volume = parseFloat(volumeSlider.value);
+document.getElementById('track-title').textContent = playlist[0].title;
 volumeViz.classList.add('paused');
+
+audio.addEventListener('ended', () => {
+    playTrack(currentTrackIndex + 1);
+});
 
 playPauseBtn.addEventListener('click', () => {
     if (audio.paused) {
-        audio.play();
+        if (!audio.src) playTrack(0);
+        else audio.play();
         playPauseBtn.textContent = '⏸';
         volumeViz.classList.remove('paused');
     } else {
@@ -406,12 +452,9 @@ volumeSlider.addEventListener('input', () => {
 });
 
 document.getElementById('prev-btn').addEventListener('click', () => {
-    audio.currentTime = 0;
+    playTrack(currentTrackIndex - 1);
 });
 
 document.getElementById('next-btn').addEventListener('click', () => {
-    audio.currentTime = 0;
-    audio.play();
-    playPauseBtn.textContent = '⏸';
-    volumeViz.classList.remove('paused');
+    playTrack(currentTrackIndex + 1);
 });
