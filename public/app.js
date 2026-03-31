@@ -60,6 +60,7 @@ fetch('/api/me')
             authModal.classList.add('hidden');
             socket.connect();
             fetchTasks();
+            startAudio();
         }
     });
 
@@ -80,6 +81,7 @@ authForm.addEventListener('submit', async (e) => {
             currentUser = username;
             socket.connect();
             fetchTasks();
+            startAudio();
         }, 800);
     } else {
         authMessage.style.color = '#ff6b6b';
@@ -424,28 +426,30 @@ function playTrack(index) {
     document.getElementById('track-title').textContent = track.title;
 }
 
-// Init: load first track and attempt autoplay
+// Init: load first track (but don't autoplay until logged in)
 audio.src = playlist[0].src;
 audio.volume = parseFloat(volumeSlider.value);
 document.getElementById('track-title').textContent = playlist[0].title;
 volumeViz.classList.add('paused');
 
-audio.play().then(() => {
-    playPauseBtn.textContent = '⏸';
-    volumeViz.classList.remove('paused');
-}).catch(() => {
-    // Autoplay blocked — play on first user interaction
-    const startOnInteraction = () => {
-        audio.play().then(() => {
-            playPauseBtn.textContent = '⏸';
-            volumeViz.classList.remove('paused');
-        }).catch(() => {});
-        document.removeEventListener('click', startOnInteraction);
-        document.removeEventListener('keydown', startOnInteraction);
-    };
-    document.addEventListener('click', startOnInteraction);
-    document.addEventListener('keydown', startOnInteraction);
-});
+function startAudio() {
+    audio.play().then(() => {
+        playPauseBtn.textContent = '⏸';
+        volumeViz.classList.remove('paused');
+    }).catch(() => {
+        // Autoplay blocked — play on first user interaction after login
+        const startOnInteraction = () => {
+            audio.play().then(() => {
+                playPauseBtn.textContent = '⏸';
+                volumeViz.classList.remove('paused');
+            }).catch(() => {});
+            document.removeEventListener('click', startOnInteraction);
+            document.removeEventListener('keydown', startOnInteraction);
+        };
+        document.addEventListener('click', startOnInteraction);
+        document.addEventListener('keydown', startOnInteraction);
+    });
+}
 
 audio.loop = true;
 
