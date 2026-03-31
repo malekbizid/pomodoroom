@@ -447,9 +447,7 @@ audio.play().then(() => {
     document.addEventListener('keydown', startOnInteraction);
 });
 
-audio.addEventListener('ended', () => {
-    playTrack(currentTrackIndex + 1);
-});
+audio.loop = true;
 
 playPauseBtn.addEventListener('click', () => {
     if (audio.paused) {
