@@ -424,11 +424,28 @@ function playTrack(index) {
     document.getElementById('track-title').textContent = track.title;
 }
 
-// Init: set first track without playing
+// Init: load first track and attempt autoplay
 audio.src = playlist[0].src;
 audio.volume = parseFloat(volumeSlider.value);
 document.getElementById('track-title').textContent = playlist[0].title;
 volumeViz.classList.add('paused');
+
+audio.play().then(() => {
+    playPauseBtn.textContent = '⏸';
+    volumeViz.classList.remove('paused');
+}).catch(() => {
+    // Autoplay blocked — play on first user interaction
+    const startOnInteraction = () => {
+        audio.play().then(() => {
+            playPauseBtn.textContent = '⏸';
+            volumeViz.classList.remove('paused');
+        }).catch(() => {});
+        document.removeEventListener('click', startOnInteraction);
+        document.removeEventListener('keydown', startOnInteraction);
+    };
+    document.addEventListener('click', startOnInteraction);
+    document.addEventListener('keydown', startOnInteraction);
+});
 
 audio.addEventListener('ended', () => {
     playTrack(currentTrackIndex + 1);
