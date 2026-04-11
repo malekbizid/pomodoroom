@@ -1,8 +1,8 @@
-# 🎧 Pomodoro Chill Room
+#  Pomodoro Chill Room
 https://canva.link/iscevacao8k52kx
 Une application web de productivité avec ambiance lofi — minuteur Pomodoro, chat en temps réel, to-do list et galerie de fonds d'écran.
 
-## ✨ Fonctionnalités
+##  Fonctionnalités
 
 - **Minuteur Pomodoro** — sessions de travail 25 min + pause 5 min, avec contrôles Start / Pause / Reset
 - **Chat en temps réel** — messagerie partagée entre tous les utilisateurs via WebSockets (Socket.IO)
@@ -11,7 +11,7 @@ Une application web de productivité avec ambiance lofi — minuteur Pomodoro, c
 - **Authentification** — inscription / connexion / déconnexion avec sessions persistantes
 - **Musique lofi** — lecteur audio intégré avec lecture automatique
 
-## 🛠️ Stack technique
+##  Stack technique
 
 | Côté | Technologie |
 |------|-------------|
@@ -21,7 +21,7 @@ Une application web de productivité avec ambiance lofi — minuteur Pomodoro, c
 | Base de données | MySQL |
 | Sessions | express-session |
 
-## 📦 Installation
+##  Installation
 
 ### Prérequis
 
@@ -87,7 +87,7 @@ node server.js
 
 L'application est accessible sur [http://localhost:3000](http://localhost:3000)
 
-## 📁 Structure du projet
+##  Structure du projet
 ```
 pomodoroom/
 ├── public/
