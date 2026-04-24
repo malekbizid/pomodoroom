@@ -98,4 +98,10 @@ pomodoroom/
 │   ├── icons/           # Icônes UI
 │   └── audio/           # Musique lofi
 └── server.js
+```
 
+### 6. Sources des images, videos et audio
+
+@t_oo_r_oo (sur X) https://x.com/t_oo_r_oo
+@steviefeesh (sur X) https://x.com/steviefeesh
+https://pixabay.com (pour audio, royalty-free)
